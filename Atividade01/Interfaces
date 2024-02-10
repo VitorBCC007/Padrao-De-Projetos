@@ -1,0 +1,63 @@
+import java.util.ArrayList;
+import java.util.List;
+
+interface GerenciadorMatriculas {
+    void matricularAluno(Aluno aluno);
+    void desmatricularAluno(Aluno aluno);
+    List<Aluno> getAlunosMatriculados();
+}
+
+class Disciplina implements GerenciadorMatriculas {
+    private List<Aluno> alunosMatriculados;
+
+    public Disciplina() {
+        this.alunosMatriculados = new ArrayList<>();
+    }
+
+    @Override
+    public void matricularAluno(Aluno aluno) {
+        alunosMatriculados.add(aluno);
+        System.out.println(aluno.getNome() + " foi matriculado na disciplina.");
+    }
+
+    @Override
+    public void desmatricularAluno(Aluno aluno) {
+        alunosMatriculados.remove(aluno);
+        System.out.println(aluno.getNome() + " foi desmatriculado da disciplina.");
+    }
+
+    @Override
+    public List<Aluno> getAlunosMatriculados() {
+        return alunosMatriculados;
+    }
+}
+
+class Aluno {
+    private String nome;
+
+    public Aluno(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        Disciplina disciplina = new Disciplina();
+
+        Aluno aluno1 = new Aluno("João");
+        Aluno aluno2 = new Aluno("Maria");
+
+        disciplina.matricularAluno(aluno1);
+        disciplina.matricularAluno(aluno2);
+
+        System.out.println("Alunos Matriculados: " + disciplina.getAlunosMatriculados());
+
+        disciplina.desmatricularAluno(aluno1);
+
+        System.out.println("Alunos Matriculados após desmatrícula: " + disciplina.getAlunosMatriculados());
+    }
+}
