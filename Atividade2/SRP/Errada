@@ -1,0 +1,13 @@
+// Classe que viola o SRP, pois possui múltiplas responsabilidades
+public class Cliente {
+    private String nome;
+    private String email;
+    
+    // Envia Email
+    public void enviarEmailBoasVindas() {
+    }
+    
+    //Salva Cliente
+    public void salvarClienteBancoDados() {
+    }
+}
