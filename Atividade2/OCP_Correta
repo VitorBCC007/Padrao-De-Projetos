@@ -1,0 +1,23 @@
+// Classe que respeita o OCP
+// Aberta para extensão e fechada para modificação
+
+public abstract class Operacao {
+    public abstract double calcular(double num1, double num2);
+}
+
+public class Soma extends Operacao {
+    @Override
+    public double calcular(double num1, double num2) {
+        return num1 + num2;
+    }
+}
+
+public class Subtracao extends Operacao {
+    @Override
+    public double calcular(double num1, double num2) {
+        return num1 - num2;
+    }
+}
+
+// OBS: ESTÁ DE ACORDO
+//MOTIVO: ESTÁ ABERTA PARA ACEITAR OUTRAS OPERAÇÕES COMO MULTIPLICAÇÃO / DIVISÃO / POTENCIA . . .
