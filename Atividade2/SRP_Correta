@@ -1,0 +1,19 @@
+//Classes separadas de forma correta de acordo com SRP, Envia Email e a classe Salvar Cliente não podem estar juntas. 
+
+public class Cliente2 {
+    private String nome;
+    private String email;
+    
+    // Envia Email
+    public void enviarEmailBoasVindas() {
+    }
+    
+    public class EnviaEmail{
+    //Salva Cliente
+    public void salvarClienteBancoDados() {
+
+    }
+    }
+}
+
+
