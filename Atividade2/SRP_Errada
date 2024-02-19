@@ -1,13 +1,17 @@
 // Classe que viola o SRP, pois possui múltiplas responsabilidades
-public class Cliente {
+public class SRP_Errado {
     private String nome;
     private String email;
     
     // Envia Email
     public void enviarEmailBoasVindas() {
     }
-    
+    //Violação == ter multiplas responsabilidades (Diferentes) em uma mesma classe 
+    //Enviar um email - Salvar um Cliente no BD  é a violação 
     //Salva Cliente
     public void salvarClienteBancoDados() {
     }
 }
+
+
+
