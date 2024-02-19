@@ -1,6 +1,4 @@
-//Classes separadas de forma correta de acordo com SRP, Envia Email e a classe Salvar Cliente não podem estar juntas. 
-
-public class Cliente2 {
+public class SRP_Correto {
     private String nome;
     private String email;
     
@@ -8,12 +6,13 @@ public class Cliente2 {
     public void enviarEmailBoasVindas() {
     }
     
-    public class EnviaEmail{
+    // Para salvar um cliente no banco de dados sem violar a SRP é necessario criar uma classe só para essa proposta
+    // Caso coloque 2 funções diferentes em uma mesma classe viola a regra
+public class BDados{
     //Salva Cliente
     public void salvarClienteBancoDados() {
-
     }
-    }
+ }
 }
 
 
