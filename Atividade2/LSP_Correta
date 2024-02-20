@@ -1,0 +1,38 @@
+//Classe correta que respeita o LSP
+//Utiliza uma hierarquia correta
+//Forma --- Retangulo/Quadrado . . . . .
+
+public abstract class Forma {
+    public abstract int area();
+}
+
+public class Retangulo extends Forma {
+    protected int largura;
+    protected int altura;
+    
+    public void setLargura(int largura) {
+        this.largura = largura;
+    }
+    
+    public void setAltura(int altura) {
+        this.altura = altura;
+    }
+    
+    @Override
+    public int area() {
+        return largura * altura;
+    }
+}
+
+public class Quadrado extends Forma {
+    protected int lado;
+    
+    public void setLado(int lado) {
+        this.lado = lado;
+    }
+    
+    @Override
+    public int area() {
+        return lado * lado;
+    }
+}
