@@ -1,0 +1,43 @@
+//Classe Correta
+//Abstração que permite a inversão de dependência
+
+public interface Switchable {
+    void turnOn();
+    void turnOff();
+    boolean getState();
+}
+
+public class Switch {
+    private Switchable device;
+
+    public Switch(Switchable device) {
+        this.device = device;
+    }
+
+    public void toggle() {
+        if (device.getState()) {
+            device.turnOff();
+        } else {
+            device.turnOn();
+        }
+    }
+}
+
+public class LightBulb implements Switchable {
+    private boolean state;
+
+    @Override
+    public void turnOn() {
+        state = true;
+    }
+
+    @Override
+    public void turnOff() {
+        state = false;
+    }
+
+    @Override
+    public boolean getState() {
+        return state;
+    }
+}
