@@ -1,0 +1,21 @@
+//Correta interfaces segregadas em interfaces menores e mais específicas
+//Interfaces diferente "movel/comedor" 
+public interface AnimalMovel {
+    void mover();
+}
+
+public interface AnimalComedor {
+    void comer();
+}
+
+public class Cachorro implements AnimalMovel, AnimalComedor { //Implementação de forma separada (Certa) 
+    @Override
+    public void mover() {
+
+    }
+
+    @Override
+    public void comer() {
+
+    }
+}
