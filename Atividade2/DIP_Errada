@@ -1,0 +1,34 @@
+//Classe viola o DIP
+//Depende de uma implementação concreta em vez de uma abstração
+
+public class Switch {
+    private LightBulb bulb;
+
+    public Switch() {
+        this.bulb = new LightBulb();
+    }
+
+    public void toggle() {
+        if (bulb.getState()) {
+            bulb.turnOff();
+        } else {
+            bulb.turnOn();
+        }
+    }
+}
+
+public class LightBulb {
+    private boolean state;
+
+    public void turnOn() {
+        state = true;
+    }
+
+    public void turnOff() {
+        state = false;
+    }
+
+    public boolean getState() {
+        return state; 
+    }
+}
