@@ -1,0 +1,25 @@
+//Classe que viola o ISP
+//implementa uma interface com métodos que não são relevantes para ela
+
+public interface Animal {   
+    void mover(); 
+    void comer(); 
+    void dormir(); 
+}
+
+public class Cachorro implements Animal { //junção de métodos (Erro) mover-comer-dormir pertence a mesma interface (Animal)
+    @Override
+    public void mover() {
+
+    }
+
+    @Override
+    public void comer() {
+
+    }
+
+    @Override
+    public void dormir() {
+
+    }
+}
