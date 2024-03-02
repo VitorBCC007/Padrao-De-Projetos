@@ -1,0 +1,66 @@
+from abc import ABC, abstractmethod
+
+class Carro(ABC):
+    @abstractmethod
+    def exibir_informacoes(self):
+        pass
+
+class Motor(ABC):
+    @abstractmethod
+    def exibir_tipo(self):
+        pass
+
+class CarroCompacto(Carro):
+    def exibir_informacoes(self):
+        return "Carro Compacto"
+
+class CarroSedan(Carro):
+    def exibir_informacoes(self):
+        return "Carro Sedan"
+
+class MotorGasolina(Motor):
+    def exibir_tipo(self):
+        return "Motor a Gasolina"
+
+class MotorEletrico(Motor):
+    def exibir_tipo(self):
+        return "Motor Elétrico"
+
+class FabricaCarro(ABC):
+    @abstractmethod
+    def criar_carro(self) -> Carro:
+        pass
+
+    @abstractmethod
+    def criar_motor(self) -> Motor:
+        pass
+
+class FabricaCarroA(FabricaCarro):
+    def criar_carro(self) -> Carro:
+        return CarroCompacto()
+
+    def criar_motor(self) -> Motor:
+        return MotorGasolina()
+
+class FabricaCarroB(FabricaCarro):
+    def criar_carro(self) -> Carro:
+        return CarroSedan()
+
+    def criar_motor(self) -> Motor:
+        return MotorEletrico()
+
+# Teste das fábricas
+def testar_fabrica(fabrica: FabricaCarro):
+    carro = fabrica.criar_carro()
+    motor = fabrica.criar_motor()
+    print("Carro:", carro.exibir_informacoes())
+    print("Motor:", motor.exibir_tipo())
+
+print("Fabrica A:")
+testar_fabrica(FabricaCarroA())
+
+print("\nFabrica B:")
+testar_fabrica(FabricaCarroB())
+
+
+
