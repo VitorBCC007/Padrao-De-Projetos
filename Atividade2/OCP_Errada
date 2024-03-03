@@ -1,22 +1,11 @@
-// Classe que viola o OCP
-//Não está aberta para extensão e fechada para modificação
-public class Calculadora {   
-    public double calcular(double num1, double num2, String operador) {
-        double resultado = 0;
-        switch (operador) {
-            case "+":
-                resultado = num1 + num2;
-                break;
-            case "-":
-                resultado = num1 - num2;
-                break;
-            case "*":
-                resultado = num1 * num2;
-                break;
-            case "/":
-                resultado = num1 / num2;
-                break;
-        } 
-        return resultado;
-    }
-}
+class Pagamento:
+    def pagar(self, valor, metodo):
+        if metodo == 'cartao':
+            print(f"Pago R$ {valor} via cartão.")
+        elif metodo == 'paypal':
+            print(f"Pago R$ {valor} via PayPal.")
+
+pagamento = Pagamento()
+pagamento.pagar(100, 'cartao')
+
+#A adição de um NOVO método de pagamento requer a modificação (direta da classe)
