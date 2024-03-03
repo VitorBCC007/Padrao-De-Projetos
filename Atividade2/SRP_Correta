@@ -18,3 +18,5 @@ novo_salario = calculadora.calcular_salario(funcionario.salario)
 
 notificador = NotificadorEmail()
 notificador.enviar_email(funcionario.nome, f"Seu novo salário é {novo_salario}")
+
+#Funcionario possuí apenas 1 responsabilidade
