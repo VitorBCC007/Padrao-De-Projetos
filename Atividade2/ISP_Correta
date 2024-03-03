@@ -1,21 +1,20 @@
-//Correta interfaces segregadas em interfaces menores e mais específicas
-//Interfaces diferente "movel/comedor" 
-public interface AnimalMovel {
-    void mover();
-}
+class Impressora:
+    def imprimir(self, documento):
+        pass
 
-public interface AnimalComedor {
-    void comer();
-}
+class Scanner:
+    def escanear(self, documento):
+        pass
 
-public class Cachorro implements AnimalMovel, AnimalComedor { //Implementação de forma separada (Certa) 
-    @Override
-    public void mover() {
+class ImpressoraLaser(Impressora):
+    def imprimir(self, documento):
+        print(f"Imprimindo {documento} via laser")
 
-    }
+class ScannerJatoTinta(Scanner):
+    def escanear(self, documento):
+        print(f"Escanenado {documento} via jato de tinta")
 
-    @Override
-    public void comer() {
+impressora = ScannerJatoTinta()
+impressora.escanear("Documento")
 
-    }
-}
+#Agora com as classes divididas Scan não é forçada a imprimir, está sendo direcionada a impressão apenas para a classe impressora
