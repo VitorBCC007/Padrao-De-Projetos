@@ -1,38 +1,15 @@
-//Classe correta que respeita o LSP
-//Utiliza uma hierarquia correta
-//Forma --- Retangulo/Quadrado . . . . .
+class Voador:
+    def voar(self):
+        pass
 
-public abstract class Forma {
-    public abstract int area();
-}
+class Pato(Voador):
+    def voar(self):
+        print("Voando")
 
-public class Retangulo extends Forma {
-    protected int largura;
-    protected int altura;
-    
-    public void setLargura(int largura) {
-        this.largura = largura;
-    }
-    
-    public void setAltura(int altura) {
-        this.altura = altura;
-    }
-    
-    @Override
-    public int area() {
-        return largura * altura;
-    }
-}
+class PatoBorracha:
+    pass  #A classe PatoBorracha não é forçada a fornecer uma implementação para o método voar
+def executar_voar(voador):
+    voador.voar()
 
-public class Quadrado extends Forma {
-    protected int lado;
-    
-    public void setLado(int lado) {
-        this.lado = lado;
-    }
-    
-    @Override
-    public int area() {
-        return lado * lado;
-    }
-}
+pato = Pato()
+executar_voar(pato)
