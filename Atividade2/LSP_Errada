@@ -1,33 +1,12 @@
-//Classe que viola o LSP
-//A subclasse não pode substituir corretamente a superclasse
+class Pato:
+    def voar(self):
+        print("Voando")
 
-public class Retangulo {
-    protected int largura;
-    protected int altura;
-    
-    public void setLargura(int largura) {
-        this.largura = largura;
-    }
-    
-    public void setAltura(int altura) {
-        this.altura = altura;
-    }
-    
-    public int area() {
-        return largura * altura;
-    }
-}
-//ERRO 
-public class Quadrado extends Retangulo { 
-    @Override
-    public void setLargura(int largura) {
-        super.setLargura(largura);
-        super.setAltura(largura);
-    }
-    
-    @Override
-    public void setAltura(int altura) {
-        super.setAltura(altura);
-        super.setLargura(altura);
-    }
-}
+class PatoBorracha(Pato):
+    pass  # Pato de borracha não pode voar
+
+def executar_voar(pato):
+    pato.voar()
+
+pato = PatoBorracha()
+executar_voar(pato)
