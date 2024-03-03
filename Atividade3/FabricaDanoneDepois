@@ -2,37 +2,37 @@ from abc import ABC, abstractmethod
 
 class Iogurte(ABC):
     @abstractmethod
-    def descricao(self):
+    def exibirinfoIorgute(self):
         pass
 
 class Bebida(ABC):
     @abstractmethod
-    def gostosa(self):
+    def exibirinfoBebida(self):
         pass
 
 class IogurteMorango(Iogurte):
-    def descricao(self):
+    def exibirinfoIorgute(self):
         return "Iogurte de Morango"
 
 class IogurteLimao(Iogurte):
-    def descricao(self):
+    def exibirinfoIorgute(self):
         return "Iogurte de Limão"
 
 class IogurteCoco(Iogurte):
-    def descricao(self):
+    def exibirinfoIorgute(self):
         return "Iogurte de Coco"
     
 class IogurteFramboesa(Iogurte):
-    def descricao(self):
+    def exibirinfoIorgute(self):
         return "Iogurte de Framboesa"
 
 
 class SucoMorango(Bebida):
-    def gostosa(self):
+    def exibirinfoBebida(self):
         return "Suco de Morango"
 
 class SucoLimao(Bebida):
-    def gostosa(self):
+    def exibirinfoBebida(self):
         return "Suco de Limão"
 
 
@@ -69,9 +69,9 @@ def testar_fabrica(fabrica: FabricaDanone):
     iogurte = fabrica.exibirinfoIorgute()
     bebida = fabrica.exibirinfoBebida()
     iogurte_extra = fabrica.exibirinfoIorguteExtra()
-    print("Iogurte:", iogurte.descricao())
-    print("Bebida:", bebida.gostosa())
-    print("Iogurte Extra:", iogurte_extra.descricao())
+    print("Iogurte:", iogurte.exibirinfoIorgute())
+    print("Bebida:", bebida.exibirinfoBebida())
+    print("Iogurte Extra:", iogurte_extra.exibirinfoIorgute())
 
 print("Fabrica DanoneA:")
 testar_fabrica(FabricaDanoneA())
