@@ -1,0 +1,111 @@
+from abc import ABC, abstractmethod
+
+class EggProduct(ABC):
+    @abstractmethod
+    def display_info(self):
+        pass
+
+class NestleAlpino(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Alpino 337g da Nestle - Chocolate ao leite, recheio de trufa, decorado com pedaços de amêndoas e avelãs."
+
+class NestleClassic(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Classic 185g da Nestle - Chocolate ao leite, casca lisa e brilhante, acompanha bombons sortidos."
+
+class NestleKitKat(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Kit Kat 227g da Nestle - Chocolate ao leite, casca recheada com wafer Kit Kat, acompanha barras de Kit Kat."
+
+# Produtos da Garoto
+class GarotoCrocante(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Crocante 215g da Garoto - Chocolate ao leite, recheio crocante de castanha de caju."
+
+class GarotoTalento(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Talento 350g da Garoto - Chocolate ao leite, recheio cremoso de trufa, acompanha barras de chocolate Talento."
+
+class GarotoBaton(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Baton ao leite 172g da Garoto - Chocolate ao leite, casca fina, formato de bastão."
+
+# Produtos da Lacta
+class LactaALeite(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa A Leite 170g da Lacta - Chocolate ao leite, casca com detalhes em chocolate branco."
+
+class LactaOreo(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Oreo 257g da Lacta - Chocolate ao leite, recheio cremoso de biscoitos Oreo."
+
+class LactaSonhoDeValsa(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Sonho de Valsa 277g da Lacta - Chocolate ao leite, recheio de bombons Sonho de Valsa."
+
+class EggFactory(ABC):
+    @abstractmethod
+    def create_product(self, code):
+        pass
+
+class NestleFactory(EggFactory):
+    def create_product(self, code):
+        if code == 1:
+            return NestleAlpino()
+        elif code == 2:
+            return NestleClassic()
+        elif code == 3:
+            return NestleKitKat()
+        else:
+            return None
+
+class GarotoFactory(EggFactory):
+    def create_product(self, code):
+        if code == 1:
+            return GarotoCrocante()
+        elif code == 2:
+            return GarotoTalento()
+        elif code == 3:
+            return GarotoBaton()
+        else:
+            return None
+
+class LactaFactory(EggFactory):
+    def create_product(self, code):
+        if code == 1:
+            return LactaALeite()
+        elif code == 2:
+            return LactaOreo()
+        elif code == 3:
+            return LactaSonhoDeValsa()
+        else:
+            return None
+
+class EasterApp:
+    def __init__(self):
+        self.factory = None
+
+    def choose_factory(self, factory_name):
+        if factory_name == "Nestle":
+            self.factory = NestleFactory()
+        elif factory_name == "Garoto":
+            self.factory = GarotoFactory()
+        elif factory_name == "Lacta":
+            self.factory = LactaFactory()
+        else:
+            print("Fábrica não reconhecida.")
+
+    def order_product(self, code):
+        if self.factory:
+            product = self.factory.create_product(code)
+            if product:
+                print(product.display_info())
+            else:
+                print("Produto não encontrado.")
+        else:
+            print("Por favor, selecione uma fábrica antes de fazer um pedido.")
+
+if __name__ == "__main__":
+    app = EasterApp()
+    app.choose_factory("Nestle") #MUDE O NOME PARA A MARCA QUE DESEJA
+    app.order_product(3) #O NÚMERO REPRESENTA O CÓDIGO DO PRODUTO INDO DE 1 A 3
