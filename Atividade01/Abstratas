@@ -1,63 +1,48 @@
-import java.util.ArrayList;
-import java.util.List;
+from abc import ABC, abstractmethod
 
-abstract class GerenciadorMatriculas {
-    protected List<Aluno> alunosMatriculados;
+class Registravel(ABC):
+    @abstractmethod
+    def registrar(self, aluno):
+        pass
+    
+    @abstractmethod
+    def cancelar_registro(self, aluno):
+        pass
+    
+    @abstractmethod
+    def esta_registrado(self, aluno):
+        pass
 
-    public GerenciadorMatriculas() {
-        this.alunosMatriculados = new ArrayList<>();
-    }
+class Disciplina(Registravel):
+    def __init__(self):
+        self.alunos_matriculados = []
 
-    public abstract void matricularAluno(Aluno aluno);
-    public abstract void desmatricularAluno(Aluno aluno);
-    public abstract List<Aluno> getAlunosMatriculados();
-}
+    def registrar(self, aluno):
+        self.alunos_matriculados.append(aluno)
+        print(f"{aluno.obter_nome()} matriculado com sucesso.")
 
-class Disciplina extends GerenciadorMatriculas {
-    @Override
-    public void matricularAluno(Aluno aluno) {
-        alunosMatriculados.add(aluno);
-        System.out.println(aluno.getNome() + " foi matriculado na disciplina.");
-    }
+    def cancelar_registro(self, aluno):
+        self.alunos_matriculados.remove(aluno)
+        print(f"{aluno.obter_nome()} retirado com sucesso.")
 
-    @Override
-    public void desmatricularAluno(Aluno aluno) {
-        alunosMatriculados.remove(aluno);
-        System.out.println(aluno.getNome() + " foi desmatriculado da disciplina.");
-    }
+    def esta_registrado(self, aluno):
+        return aluno in self.alunos_matriculados
 
-    @Override
-    public List<Aluno> getAlunosMatriculados() {
-        return alunosMatriculados;
-    }
-}
+class Aluno:
+    def __init__(self, nome):
+        self.nome = nome
 
-class Aluno {
-    private String nome;
+    def obter_nome(self):
+        return self.nome
 
-    public Aluno(String nome) {
-        this.nome = nome;
-    }
+def main():
+    disciplina = Disciplina()
+    aluno1 = Aluno("João")
+    aluno2 = Aluno("Maria")
 
-    public String getNome() {
-        return nome;
-    }
-}
+    disciplina.registrar(aluno1)
+    disciplina.registrar(aluno2)
+    disciplina.cancelar_registro(aluno1)
 
-public class Principal {
-    public static void main(String[] args) {
-        GerenciadorMatriculas disciplina = new Disciplina();
-
-        Aluno aluno1 = new Aluno("João");
-        Aluno aluno2 = new Aluno("Maria");
-
-        disciplina.matricularAluno(aluno1);
-        disciplina.matricularAluno(aluno2);
-
-        System.out.println("Alunos Matriculados: " + disciplina.getAlunosMatriculados());
-
-        disciplina.desmatricularAluno(aluno1);
-
-        System.out.println("Alunos Matriculados após desmatrícula: " + disciplina.getAlunosMatriculados());
-    }
-}
+if __name__ == "__main__":
+    main()
