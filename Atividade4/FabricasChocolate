@@ -17,7 +17,10 @@ class NestleKitKat(EggProduct):
     def display_info(self):
         return "Ovo de Páscoa Kit Kat 227g da Nestle - Chocolate ao leite, casca recheada com wafer Kit Kat, acompanha barras de Kit Kat."
 
-# Produtos da Garoto
+class NestleBis(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Bis 250g da Nestle - Chocolate ao leite, recheio cremoso de creme de avelã, decorado com pedaços de chocolate Bis."
+
 class GarotoCrocante(EggProduct):
     def display_info(self):
         return "Ovo de Páscoa Crocante 215g da Garoto - Chocolate ao leite, recheio crocante de castanha de caju."
@@ -30,7 +33,10 @@ class GarotoBaton(EggProduct):
     def display_info(self):
         return "Ovo de Páscoa Baton ao leite 172g da Garoto - Chocolate ao leite, casca fina, formato de bastão."
 
-# Produtos da Lacta
+class GarotoCaribe(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Caribe 200g da Garoto - Chocolate ao leite, recheio cremoso de coco, decorado com flocos de coco."
+
 class LactaALeite(EggProduct):
     def display_info(self):
         return "Ovo de Páscoa A Leite 170g da Lacta - Chocolate ao leite, casca com detalhes em chocolate branco."
@@ -42,6 +48,24 @@ class LactaOreo(EggProduct):
 class LactaSonhoDeValsa(EggProduct):
     def display_info(self):
         return "Ovo de Páscoa Sonho de Valsa 277g da Lacta - Chocolate ao leite, recheio de bombons Sonho de Valsa."
+
+class LactaOuroBranco(EggProduct):
+    def display_info(self):
+        return "Ovo de Páscoa Ouro Branco 240g da Lacta - Chocolate ao leite, recheio cremoso de chocolate branco, decorado com pedaços de chocolate Ouro Branco."
+
+class Hersheys(EggProduct):
+    def __init__(self, weight):
+        self.weight = weight
+
+    def display_info(self):
+        return f"Ovo de Páscoa Hershey's {self.weight}g da Hershey's - Chocolate ao leite."
+
+class FerreiroRocher(EggProduct):
+    def __init__(self, weight):
+        self.weight = weight
+
+    def display_info(self):
+        return f"Ovo de Páscoa Ferreiro Rocher {self.weight}g da Ferreiro - Chocolate com avelãs inteiras."
 
 class EggFactory(ABC):
     @abstractmethod
@@ -56,6 +80,8 @@ class NestleFactory(EggFactory):
             return NestleClassic()
         elif code == 3:
             return NestleKitKat()
+        elif code == 4:
+            return NestleBis()
         else:
             return None
 
@@ -67,6 +93,8 @@ class GarotoFactory(EggFactory):
             return GarotoTalento()
         elif code == 3:
             return GarotoBaton()
+        elif code == 4:
+            return GarotoCaribe()
         else:
             return None
 
@@ -78,6 +106,30 @@ class LactaFactory(EggFactory):
             return LactaOreo()
         elif code == 3:
             return LactaSonhoDeValsa()
+        elif code == 4:
+            return LactaOuroBranco()
+        else:
+            return None
+
+class HersheysFactory(EggFactory):
+    def create_product(self, code):
+        if code == 1:
+            return Hersheys(weight=137)
+        elif code == 2:
+            return Hersheys(weight=225)
+        elif code == 3:
+            return Hersheys(weight=336)
+        else:
+            return None
+
+class FerreiroFactory(EggFactory):
+    def create_product(self, code):
+        if code == 1:
+            return FerreiroRocher(weight=137)
+        elif code == 2:
+            return FerreiroRocher(weight=255)
+        elif code == 3:
+            return FerreiroRocher(weight=366)
         else:
             return None
 
@@ -92,6 +144,10 @@ class EasterApp:
             self.factory = GarotoFactory()
         elif factory_name == "Lacta":
             self.factory = LactaFactory()
+        elif factory_name == "Hersheys":
+            self.factory = HersheysFactory()
+        elif factory_name == "Ferreiro":
+            self.factory = FerreiroFactory()
         else:
             print("Fábrica não reconhecida.")
 
@@ -105,7 +161,10 @@ class EasterApp:
         else:
             print("Por favor, selecione uma fábrica antes de fazer um pedido.")
 
+# NESTLE , GAROTO, LACTA, HERSHEYS, FERREIRO (app.choose_factory( "MUDE O NOME PARA A FABRICA" ) 
+# app.order_product(4)   <<< MUDE O NÚMERO DE 1 A 4 PARA TROCAR O CHOCOLATE
 if __name__ == "__main__":
     app = EasterApp()
-    app.choose_factory("Nestle") #MUDE O NOME PARA A MARCA QUE DESEJA
-    app.order_product(3) #O NÚMERO REPRESENTA O CÓDIGO DO PRODUTO INDO DE 1 A 3
+    app.choose_factory("Nestle") 
+    app.order_product(4)  
+
