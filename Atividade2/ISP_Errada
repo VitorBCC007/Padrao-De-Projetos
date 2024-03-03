@@ -1,25 +1,15 @@
-//Classe que viola o ISP
-//implementa uma interface com métodos que não são relevantes para ela
+class Impressora:
+    def imprimir(self, documento):
+        pass
 
-public interface Animal {   
-    void mover(); 
-    void comer(); 
-    void dormir(); 
-}
+class ImpressoraLaser(Impressora):
+    def imprimir(self, documento):
+        print(f"Imprimindo {documento} via laser")
 
-public class Cachorro implements Animal { //junção de métodos (Erro) mover-comer-dormir pertence a mesma interface (Animal)
-    @Override
-    public void mover() {
+class Scanner(Impressora):
+    def imprimir(self, documento):
+        print(f"Escaneando {documento}")
 
-    }
-
-    @Override
-    public void comer() {
-
-    }
-
-    @Override
-    public void dormir() {
-
-    }
-}
+impressora = Scanner()
+impressora.imprimir("Documento")
+#A classe scanner está sendo forçada a imprimir, sem ter necessidade devido a interface impressoral
