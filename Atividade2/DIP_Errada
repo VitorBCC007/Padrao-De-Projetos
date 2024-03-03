@@ -1,34 +1,15 @@
-//Classe viola o DIP
-//Depende de uma implementação concreta em vez de uma abstração
+class Servico:
+    def realizar_operacao(self):
+        return "Operação realizada com sucesso"
 
-public class Switch {
-    private LightBulb bulb;
+class Negocio:
+    def __init__(self):
+        self.servico = Servico()
 
-    public Switch() {
-        this.bulb = new LightBulb();
-    }
+    def executar_operacao(self):
+        return self.servico.realizar_operacao()
 
-    public void toggle() {
-        if (bulb.getState()) {
-            bulb.turnOff();
-        } else {
-            bulb.turnOn();
-        }
-    }
-}
+negocio = Negocio()
+print(negocio.executar_operacao())
 
-public class LightBulb {
-    private boolean state;
-
-    public void turnOn() {
-        state = true;
-    }
-
-    public void turnOff() {
-        state = false;
-    }
-
-    public boolean getState() {
-        return state; 
-    }
-}
+#A classe Negocio tem uma dependência direta da classe Servico, se torna difícil de testar
