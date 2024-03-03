@@ -1,48 +1,56 @@
 from abc import ABC, abstractmethod
 
-class Registravel(ABC):
-    @abstractmethod
-    def registrar(self, aluno):
-        pass
-    
-    @abstractmethod
-    def cancelar_registro(self, aluno):
-        pass
-    
-    @abstractmethod
-    def esta_registrado(self, aluno):
-        pass
-
-class Disciplina(Registravel):
-    def __init__(self):
-        self.alunos_matriculados = []
-
-    def registrar(self, aluno):
-        self.alunos_matriculados.append(aluno)
-        print(f"{aluno.obter_nome()} matriculado com sucesso.")
-
-    def cancelar_registro(self, aluno):
-        self.alunos_matriculados.remove(aluno)
-        print(f"{aluno.obter_nome()} retirado com sucesso.")
-
-    def esta_registrado(self, aluno):
-        return aluno in self.alunos_matriculados
-
-class Aluno:
+class Aluno(ABC):
     def __init__(self, nome):
         self.nome = nome
 
+    @abstractmethod
+    def obter_nome(self):
+        pass
+
+class AlunoImpl(Aluno):
     def obter_nome(self):
         return self.nome
 
-def main():
-    disciplina = Disciplina()
-    aluno1 = Aluno("João")
-    aluno2 = Aluno("Maria")
+class Disciplina(ABC):
+    def __init__(self):
+        self.alunos = []
 
-    disciplina.registrar(aluno1)
-    disciplina.registrar(aluno2)
-    disciplina.cancelar_registro(aluno1)
+    @abstractmethod
+    def matricular(self, aluno):
+        pass
+    
+    @abstractmethod
+    def listar_alunos(self):
+        pass
 
-if __name__ == "__main__":
-    main()
+class DisciplinaMatematica(Disciplina):
+    def matricular(self, aluno):
+        self.alunos.append(aluno)
+
+    def listar_alunos(self):
+        for aluno in self.alunos:
+            print(aluno.obter_nome())
+
+class DisciplinaFisica(Disciplina):
+    def matricular(self, aluno):
+        self.alunos.append(aluno)
+
+    def listar_alunos(self):
+        for aluno in self.alunos:
+            print(aluno.obter_nome())
+
+aluno1 = AlunoImpl("João")
+aluno2 = AlunoImpl("Vitor")
+
+matematica = DisciplinaMatematica()
+matematica.matricular(aluno1)
+matematica.matricular(aluno2)
+print("Alunos matriculados em Matemática:")
+matematica.listar_alunos()
+
+fisica = DisciplinaFisica()
+fisica.matricular(aluno1)
+fisica.matricular(aluno2)
+print("\nAlunos matriculados em Física:")
+fisica.listar_alunos()
