@@ -17,5 +17,5 @@ servico = Servico()
 negocio = Negocio(servico)
 print(negocio.executar_operacao())
 
-#Negocio depende apenas da abstração, não da implementação concreta.
+#Negocio depende apenas da abstração, não da implementação concreta
 #obs: Antes tinha dependencia em Servico
