@@ -12,4 +12,4 @@ class Negocio:
 negocio = Negocio()
 print(negocio.executar_operacao())
 
-#A classe Negocio tem uma dependência direta da classe Servico, se torna difícil de testar
+#A classe Negocio tem uma dependência direta da classe Servico, se torna difícil de testar por conta do acoplamento
