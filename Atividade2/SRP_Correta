@@ -1,18 +1,20 @@
-public class SRP_Correto {
-    private String nome;
-    private String email;
-    
-    // Envia Email
-    public void enviarEmailBoasVindas() {
-    }
-    
-    // Para salvar um cliente no banco de dados sem violar a SRP é necessario criar uma classe só para essa proposta
-    // Caso coloque 2 funções diferentes em uma mesma classe viola a regra
-public class BDados{
-    //Salva Cliente
-    public void salvarClienteBancoDados() {
-    }
- }
-}
+class CalculadoraSalario:
+    def calcular_salario(self, salario):
+        return salario * 1.1  
 
+class NotificadorEmail:
+    def enviar_email(self, destinatario, mensagem):
+        print(f"Enviando e-mail para {destinatario}: {mensagem}")
 
+class Funcionario:
+    def __init__(self, nome, salario):
+        self.nome = nome
+        self.salario = salario
+
+funcionario = Funcionario("João", 1000)
+
+calculadora = CalculadoraSalario()
+novo_salario = calculadora.calcular_salario(funcionario.salario)
+
+notificador = NotificadorEmail()
+notificador.enviar_email(funcionario.nome, f"Seu novo salário é {novo_salario}")
