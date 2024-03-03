@@ -1,43 +1,21 @@
-//Classe Correta
-//Abstração que permite a inversão de dependência
+class InterfaceServico:
+    def realizar_operacao(self):
+        pass
 
-public interface Switchable {
-    void turnOn();
-    void turnOff();
-    boolean getState();
-}
+class Servico(InterfaceServico):
+    def realizar_operacao(self):
+        return "Operação realizada com sucesso"
 
-public class Switch {
-    private Switchable device;
+class Negocio:
+    def __init__(self, servico):
+        self.servico = servico
 
-    public Switch(Switchable device) {
-        this.device = device;
-    }
+    def executar_operacao(self):
+        return self.servico.realizar_operacao()
 
-    public void toggle() {
-        if (device.getState()) {
-            device.turnOff();
-        } else {
-            device.turnOn();
-        }
-    }
-}
+servico = Servico()
+negocio = Negocio(servico)
+print(negocio.executar_operacao())
 
-public class LightBulb implements Switchable {
-    private boolean state;
-
-    @Override
-    public void turnOn() {
-        state = true;
-    }
-
-    @Override
-    public void turnOff() {
-        state = false;
-    }
-
-    @Override
-    public boolean getState() {
-        return state;
-    }
-}
+#Negocio depende apenas da abstração, não da implementação concreta.
+#obs: Antes tinha dependencia em Servico
