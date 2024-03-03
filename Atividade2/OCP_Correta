@@ -1,23 +1,19 @@
-// Classe que respeita o OCP
-// Aberta para extensão e fechada para modificação
+class Pagamento:
+    def pagar(self, valor):
+        pass
 
-public abstract class Operacao {
-    public abstract double calcular(double num1, double num2);
-}
+class PagamentoCartao(Pagamento):
+    def pagar(self, valor):
+        print(f"Pago R$ {valor} via cartão.")
 
-public class Soma extends Operacao {
-    @Override
-    public double calcular(double num1, double num2) {
-        return num1 + num2;
-    }
-}
+class PagamentoPayPal(Pagamento):
+    def pagar(self, valor):
+        print(f"Pago R$ {valor} via PayPal.")
 
-public class Subtracao extends Operacao {
-    @Override
-    public double calcular(double num1, double num2) {
-        return num1 - num2;
-    }
-}
+pagamento_cartao = PagamentoCartao()
+pagamento_cartao.pagar(100)
 
-// OBS: ESTÁ DE ACORDO
-//MOTIVO: ESTÁ ABERTA PARA ACEITAR OUTRAS OPERAÇÕES COMO MULTIPLICAÇÃO / DIVISÃO / POTENCIA . . .
+pagamento_paypal = PagamentoPayPal()
+pagamento_paypal.pagar(100)
+
+#Agora basta criar uma nova classe, não precisa modificar a clases pagamento
