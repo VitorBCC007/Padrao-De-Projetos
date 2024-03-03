@@ -1,17 +1,14 @@
-// Classe que viola o SRP, pois possui múltiplas responsabilidades
-public class SRP_Errado {
-    private String nome;
-    private String email;
-    
-    // Envia Email
-    public void enviarEmailBoasVindas() {
-    }
-    //Violação == ter multiplas responsabilidades (Diferentes) em uma mesma classe 
-    //Enviar um email - Salvar um Cliente no BD  é a violação 
-    //Salva Cliente
-    public void salvarClienteBancoDados() {
-    }
-}
+class Funcionario:
+    def __init__(self, nome, salario):
+        self.nome = nome
+        self.salario = salario
 
+    def calcular_salario(self):
+        return self.salario * 1.1  # Adiciona um aumento de 10%
 
+    def enviar_email(self, mensagem):
+        print(f"Enviando e-mail para {self.nome}: {mensagem}")
 
+funcionario = Funcionario("João", 1000)
+novo_salario = funcionario.calcular_salario()
+funcionario.enviar_email(f"Seu novo salário é {novo_salario}")
