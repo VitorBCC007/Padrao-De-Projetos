@@ -5,133 +5,69 @@ class EggProduct(ABC):
     def display_info(self):
         pass
 
-class NestleAlpino(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Alpino 337g da Nestle - Chocolate ao leite, recheio de trufa, decorado com pedaços de amêndoas e avelãs."
-
-class NestleClassic(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Classic 185g da Nestle - Chocolate ao leite, casca lisa e brilhante, acompanha bombons sortidos."
-
-class NestleKitKat(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Kit Kat 227g da Nestle - Chocolate ao leite, casca recheada com wafer Kit Kat, acompanha barras de Kit Kat."
-
-class NestleBis(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Bis 250g da Nestle - Chocolate ao leite, recheio cremoso de creme de avelã, decorado com pedaços de chocolate Bis."
-
-class GarotoCrocante(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Crocante 215g da Garoto - Chocolate ao leite, recheio crocante de castanha de caju."
-
-class GarotoTalento(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Talento 350g da Garoto - Chocolate ao leite, recheio cremoso de trufa, acompanha barras de chocolate Talento."
-
-class GarotoBaton(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Baton ao leite 172g da Garoto - Chocolate ao leite, casca fina, formato de bastão."
-
-class GarotoCaribe(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Caribe 200g da Garoto - Chocolate ao leite, recheio cremoso de coco, decorado com flocos de coco."
-
-class LactaALeite(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa A Leite 170g da Lacta - Chocolate ao leite, casca com detalhes em chocolate branco."
-
-class LactaOreo(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Oreo 257g da Lacta - Chocolate ao leite, recheio cremoso de biscoitos Oreo."
-
-class LactaSonhoDeValsa(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Sonho de Valsa 277g da Lacta - Chocolate ao leite, recheio de bombons Sonho de Valsa."
-
-class LactaOuroBranco(EggProduct):
-    def display_info(self):
-        return "Ovo de Páscoa Ouro Branco 240g da Lacta - Chocolate ao leite, recheio cremoso de chocolate branco, decorado com pedaços de chocolate Ouro Branco."
-
-class Hersheys(EggProduct):
-    def __init__(self, weight):
-        self.weight = weight
-
-    def display_info(self):
-        return f"Ovo de Páscoa Hershey's {self.weight}g da Hershey's - Chocolate ao leite."
-
-class FerreiroRocher(EggProduct):
-    def __init__(self, weight):
-        self.weight = weight
-
-    def display_info(self):
-        return f"Ovo de Páscoa Ferreiro Rocher {self.weight}g da Ferreiro - Chocolate com avelãs inteiras."
-
-class EggFactory(ABC):
+class ChocolateFactory(ABC):
     @abstractmethod
     def create_product(self, code):
         pass
 
-class NestleFactory(EggFactory):
-    def create_product(self, code):
-        if code == 1:
-            return NestleAlpino()
-        elif code == 2:
-            return NestleClassic()
-        elif code == 3:
-            return NestleKitKat()
-        elif code == 4:
-            return NestleBis()
-        else:
-            return None
+class ChocolateProduct(EggProduct):
+    def __init__(self, name, description, weight, price, ingredients):
+        self.name = name
+        self.description = description
+        self.weight = weight
+        self.price = price
+        self.ingredients = ingredients
 
-class GarotoFactory(EggFactory):
-    def create_product(self, code):
-        if code == 1:
-            return GarotoCrocante()
-        elif code == 2:
-            return GarotoTalento()
-        elif code == 3:
-            return GarotoBaton()
-        elif code == 4:
-            return GarotoCaribe()
-        else:
-            return None
+    def display_info(self):
+        return f"Nome: {self.name}\nDescrição: {self.description}\nPeso: {self.weight}g\nPreço: R${self.price}\nIngredientes: {', '.join(self.ingredients)}"
 
-class LactaFactory(EggFactory):
+class NestleFactory(ChocolateFactory):
     def create_product(self, code):
-        if code == 1:
-            return LactaALeite()
-        elif code == 2:
-            return LactaOreo()
-        elif code == 3:
-            return LactaSonhoDeValsa()
-        elif code == 4:
-            return LactaOuroBranco()
-        else:
-            return None
+        products = {
+            1: ChocolateProduct("Alpino", "Chocolate ao leite, recheio de trufa, decorado com pedaços de amêndoas e avelãs.", 337, 30.99, ["Chocolate ao leite", "Trufa", "Amêndoas", "Avelãs"]),
+            2: ChocolateProduct("Classic", "Chocolate ao leite, casca lisa e brilhante, acompanha bombons sortidos.", 185, 25.99, ["Chocolate ao leite", "Bombons sortidos"]),
+            3: ChocolateProduct("Kit Kat", "Chocolate ao leite, casca recheada com wafer Kit Kat, acompanha barras de Kit Kat.", 227, 28.99, ["Chocolate ao leite", "Wafer Kit Kat"]),
+            4: ChocolateProduct("Bis", "Chocolate ao leite, recheio cremoso de creme de avelã, decorado com pedaços de chocolate Bis.", 250, 26.99, ["Chocolate ao leite", "Creme de avelã", "Chocolate Bis"])
+        }
+        return products.get(code, None)
 
-class HersheysFactory(EggFactory):
+class GarotoFactory(ChocolateFactory):
     def create_product(self, code):
-        if code == 1:
-            return Hersheys(weight=137)
-        elif code == 2:
-            return Hersheys(weight=225)
-        elif code == 3:
-            return Hersheys(weight=336)
-        else:
-            return None
+        products = {
+            1: ChocolateProduct("Crocante", "Chocolate ao leite, recheio crocante de castanha de caju.", 215, 27.99, ["Chocolate ao leite", "Castanha de caju"]),
+            2: ChocolateProduct("Talento", "Chocolate ao leite, recheio cremoso de trufa, acompanha barras de chocolate Talento.", 350, 35.99, ["Chocolate ao leite", "Trufa", "Chocolate Talento"]),
+            3: ChocolateProduct("Baton", "Chocolate ao leite, casca fina, formato de bastão.", 172, 20.99, ["Chocolate ao leite"]),
+            4: ChocolateProduct("Caribe", "Chocolate ao leite, recheio cremoso de coco, decorado com flocos de coco.", 200, 22.99, ["Chocolate ao leite", "Coco"])
+        }
+        return products.get(code, None)
 
-class FerreiroFactory(EggFactory):
+class LactaFactory(ChocolateFactory):
     def create_product(self, code):
-        if code == 1:
-            return FerreiroRocher(weight=137)
-        elif code == 2:
-            return FerreiroRocher(weight=255)
-        elif code == 3:
-            return FerreiroRocher(weight=366)
-        else:
-            return None
+        products = {
+            1: ChocolateProduct("A Leite", "Chocolate ao leite, casca com detalhes em chocolate branco.", 170, 23.99, ["Chocolate ao leite", "Chocolate branco"]),
+            2: ChocolateProduct("Oreo", "Chocolate ao leite, recheio cremoso de biscoitos Oreo.", 257, 31.99, ["Chocolate ao leite", "Biscoitos Oreo"]),
+            3: ChocolateProduct("Sonho de Valsa", "Chocolate ao leite, recheio de bombons Sonho de Valsa.", 277, 34.99, ["Chocolate ao leite", "Bombons Sonho de Valsa"]),
+            4: ChocolateProduct("Ouro Branco", "Chocolate ao leite, recheio cremoso de chocolate branco, decorado com pedaços de chocolate Ouro Branco.", 240, 29.99, ["Chocolate ao leite", "Chocolate branco", "Chocolate Ouro Branco"])
+        }
+        return products.get(code, None)
+
+class HersheysFactory(ChocolateFactory):
+    def create_product(self, code):
+        products = {
+            1: ChocolateProduct("Hershey's", "Chocolate ao leite.", 137, 18.99, ["Chocolate ao leite"]),
+            2: ChocolateProduct("Hershey's", "Chocolate ao leite.", 225, 24.99, ["Chocolate ao leite"]),
+            3: ChocolateProduct("Hershey's", "Chocolate ao leite.", 336, 31.99, ["Chocolate ao leite"])
+        }
+        return products.get(code, None)
+
+class FerreiroFactory(ChocolateFactory):
+    def create_product(self, code):
+        products = {
+            1: ChocolateProduct("Ferreiro Rocher", "Chocolate com avelãs inteiras.", 137, 19.99, ["Chocolate", "Avelãs"]),
+            2: ChocolateProduct("Ferreiro Rocher", "Chocolate com avelãs inteiras.", 255, 29.99, ["Chocolate", "Avelãs"]),
+            3: ChocolateProduct("Ferreiro Rocher", "Chocolate com avelãs inteiras.", 366, 39.99, ["Chocolate", "Avelãs"])
+        }
+        return products.get(code, None)
 
 class EasterApp:
     def __init__(self):
@@ -161,10 +97,7 @@ class EasterApp:
         else:
             print("Por favor, selecione uma fábrica antes de fazer um pedido.")
 
-# NESTLE , GAROTO, LACTA, HERSHEYS, FERREIRO (app.choose_factory( "MUDE O NOME PARA A FABRICA" ) 
-# app.order_product(4)   <<< MUDE O NÚMERO DE 1 A 4 PARA TROCAR O CHOCOLATE
 if __name__ == "__main__":
     app = EasterApp()
     app.choose_factory("Nestle") 
-    app.order_product(4)  
-
+    app.order_product(4)
