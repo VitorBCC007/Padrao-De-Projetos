@@ -1,63 +1,42 @@
-import java.util.ArrayList;
-import java.util.List;
+from abc import ABC, abstractmethod
 
-interface GerenciadorMatriculas {
-    void matricularAluno(Aluno aluno);
-    void desmatricularAluno(Aluno aluno);
-    List<Aluno> getAlunosMatriculados();
-}
+class Aluno(ABC):
+    @abstractmethod
+    def obter_nome(self):
+        pass
 
-class Disciplina implements GerenciadorMatriculas {
-    private List<Aluno> alunosMatriculados;
+class Disciplina(ABC):
+    @abstractmethod
+    def matricular(self, aluno):
+        pass
+    
+    @abstractmethod
+    def listar_alunos(self):
+        pass
 
-    public Disciplina() {
-        this.alunosMatriculados = new ArrayList<>();
-    }
+class AlunoImpl(Aluno):
+    def __init__(self, nome):
+        self.nome = nome
 
-    @Override
-    public void matricularAluno(Aluno aluno) {
-        alunosMatriculados.add(aluno);
-        System.out.println(aluno.getNome() + " foi matriculado na disciplina.");
-    }
+    def obter_nome(self):
+        return self.nome
 
-    @Override
-    public void desmatricularAluno(Aluno aluno) {
-        alunosMatriculados.remove(aluno);
-        System.out.println(aluno.getNome() + " foi desmatriculado da disciplina.");
-    }
+class DisciplinaImpl(Disciplina):
+    def __init__(self, nome_disciplina):
+        self.nome_disciplina = nome_disciplina
+        self.alunos = []
 
-    @Override
-    public List<Aluno> getAlunosMatriculados() {
-        return alunosMatriculados;
-    }
-}
+    def matricular(self, aluno):
+        self.alunos.append(aluno)
 
-class Aluno {
-    private String nome;
+    def listar_alunos(self):
+        print(f"Alunos matriculados na disciplina de {self.nome_disciplina}:")
+        for aluno in self.alunos:
+            print(aluno.obter_nome())
+aluno1 = AlunoImpl("João")
+aluno2 = AlunoImpl("Vítão")
 
-    public Aluno(String nome) {
-        this.nome = nome;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-}
-
-public class Principal {
-    public static void main(String[] args) {
-        Disciplina disciplina = new Disciplina();
-
-        Aluno aluno1 = new Aluno("João");
-        Aluno aluno2 = new Aluno("Maria");
-
-        disciplina.matricularAluno(aluno1);
-        disciplina.matricularAluno(aluno2);
-
-        System.out.println("Alunos Matriculados: " + disciplina.getAlunosMatriculados());
-
-        disciplina.desmatricularAluno(aluno1);
-
-        System.out.println("Alunos Matriculados após desmatrícula: " + disciplina.getAlunosMatriculados());
-    }
-}
+disciplina = DisciplinaImpl("PP")
+disciplina.matricular(aluno1)
+disciplina.matricular(aluno2)
+disciplina.listar_alunos()
