@@ -12,3 +12,5 @@ class Funcionario:
 funcionario = Funcionario("João", 1000)
 novo_salario = funcionario.calcular_salario()
 funcionario.enviar_email(f"Seu novo salário é {novo_salario}")
+
+#Funcionario tem mais de 1 responsabilidade
