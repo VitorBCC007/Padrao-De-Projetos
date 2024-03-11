@@ -1,0 +1,90 @@
+from abc import ABC, abstractmethod
+
+class CamisaEsportiva(ABC):
+    @abstractmethod
+    def get_modelo(self):
+        pass
+
+    @abstractmethod
+    def get_fabrica(self):
+        pass
+
+class CamisaBrasil(CamisaEsportiva):
+    def get_modelo(self):
+        return "Brasil"
+
+    def get_fabrica(self):
+        return "Nike"
+
+class CamisaFlamengo(CamisaEsportiva):
+    def get_modelo(self):
+        return "Flamengo"
+
+    def get_fabrica(self):
+        return "Adidas"
+
+class CamisaBotafogo(CamisaEsportiva):
+    def get_modelo(self):
+        return "Botafogo"
+
+    def get_fabrica(self):
+        return "Puma"
+
+class CamisaFluminense(CamisaEsportiva):
+    def get_modelo(self):
+        return "Fluminense"
+
+    def get_fabrica(self):
+        return "Umbro"
+
+class CamisaVasco(CamisaEsportiva):
+    def get_modelo(self):
+        return "Vasco"
+
+    def get_fabrica(self):
+        return "Kappa"
+
+class FabricaEsportiva(ABC):
+    @abstractmethod
+    def criar_camisa(self):
+        pass
+
+class FabricaNike(FabricaEsportiva):
+    def criar_camisa(self):
+        return CamisaBrasil()
+
+class FabricaAdidas(FabricaEsportiva):
+    def criar_camisa(self):
+        return CamisaFlamengo()
+
+class FabricaPuma(FabricaEsportiva):
+    def criar_camisa(self):
+        return CamisaBotafogo()
+
+class FabricaUmbro(FabricaEsportiva):
+    def criar_camisa(self):
+        return CamisaFluminense()
+
+class FabricaKappa(FabricaEsportiva):
+    def criar_camisa(self):
+        return CamisaVasco()
+
+def main():
+    fabricas = {
+        "Nike": FabricaNike,
+        "Adidas": FabricaAdidas,
+        "Puma": FabricaPuma,
+        "Umbro": FabricaUmbro,
+        "Kappa": FabricaKappa
+    }
+
+    escolha_fabrica = input("Escolha a fábrica (Nike, Adidas, Puma, Umbro, Kappa): ")
+    if escolha_fabrica in fabricas:
+        fabrica_esportiva = fabricas[escolha_fabrica]()
+        camisa = fabrica_esportiva.criar_camisa()
+        print(f"Camisa do {camisa.get_modelo()} - Fabricante: {camisa.get_fabrica()}")
+    else:
+        print("Fábrica não encontrada.")
+
+if __name__ == "__main__":
+    main()
