@@ -6,11 +6,11 @@ class TransporteationFactory(ABC):
     def create_Transporte(self):
         pass
 
-class onibusFactory(TransporteationFactory):
+class BusFactory(TransporteationFactory):
     def create_Transporte(self): 
         return onibus()
 
-class metroFactory(TransporteationFactory):
+class SubwayFactory(TransporteationFactory):
     def create_Transporte(self):
         return metro()
 
@@ -24,11 +24,11 @@ class Transporte(ABC):
         pass
     
     @abstractmethod
-    def set_route(self, origin, destino):
+    def set_rota(self, origin, destino):
         pass
     
     @abstractmethod
-    def manage_passengers(self, embarked, disembarked):
+    def gestao_passageiros(self, embarked, disembarked):
         pass
     
     @abstractmethod
@@ -49,11 +49,11 @@ class onibus(Transporte):#PRODUTO CONRETO
     def set_pagamento(self, pagamento):
         self.pagamento = pagamento
     
-    def set_route(self, origin, destino):
+    def set_rota(self, origin, destino):
         self.origin = origin
         self.destino = destino
     
-    def manage_passengers(self, embarked, disembarked):
+    def gestao_passageiros(self, embarked, disembarked):
         self.capacidade_passageiros += embarked
         self.capacidade_passageiros -= disembarked
     
@@ -74,11 +74,11 @@ class metro(Transporte):
     def set_pagamento(self, pagamento):
         pass  
     
-    def set_route(self, origin_station, destino_station):
+    def set_rota(self, origin_station, destino_station):
         self.origin_station = origin_station
         self.destino_station = destino_station
     
-    def manage_passengers(self, embarked, disembarked):
+    def gestao_passageiros(self, embarked, disembarked):
         self.capacidade_passageiros += embarked
         self.capacidade_passageiros -= disembarked
     
@@ -87,17 +87,17 @@ class metro(Transporte):
         print("Current passengers:", self.capacidade_passageiros)
 
 if __name__ == "__main__":
-    onibus_factory = onibusFactory()  
+    onibus_factory = BusFactory()  
     onibus = onibus_factory.create_Transporte()  # (((FACTORY CRIANDO OBJETO onibus)))
     onibus.set_capacidade_veiculo(50)  
     onibus.set_pagamento("Card")  
-    onibus.set_route("Station A", "Station B")  
-    onibus.manage_passengers(20, 10)  
+    onibus.set_rota("Station A", "Station B")  
+    onibus.gestao_passageiros(20, 10)  
     onibus.monitor_capacidade_veiculo()  
 
-    metro_factory = metroFactory()  
+    metro_factory = SubwayFactory()  
     metro = metro_factory.create_Transporte()  # (((FACTORY CRIA metro)))
     metro.set_capacidade_veiculo(200)  
-    metro.set_route("Station X", "Station Y")  
-    metro.manage_passengers(100, 50)  
+    metro.set_rota("Station X", "Station Y")  
+    metro.gestao_passageiros(100, 50)  
     metro.monitor_capacidade_veiculo()  
