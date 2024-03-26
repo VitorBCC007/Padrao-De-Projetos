@@ -1,0 +1,103 @@
+from abc import ABC, abstractmethod
+
+# Abstract Factory
+class TransportationFactory(ABC):
+    @abstractmethod
+    def create_transport(self):
+        pass
+
+class BusFactory(TransportationFactory):
+    def create_transport(self): #Factory Method
+        return Bus()
+
+class SubwayFactory(TransportationFactory):
+    def create_transport(self):
+        return Subway()
+
+class Transport(ABC):
+    @abstractmethod
+    def set_capacity(self, capacity):
+        pass
+    
+    @abstractmethod
+    def set_payment_method(self, payment_method):
+        pass
+    
+    @abstractmethod
+    def set_route(self, origin, destination):
+        pass
+    
+    @abstractmethod
+    def manage_passengers(self, embarked, disembarked):
+        pass
+    
+    @abstractmethod
+    def monitor_capacity(self):
+        pass
+
+class Bus(Transport):#PRODUTO CONRETO
+    def __init__(self):
+        self.capacity = 0
+        self.payment_method = ""
+        self.origin = ""
+        self.destination = ""
+        self.current_passengers = 0  
+
+    def set_capacity(self, capacity):
+        self.capacity = capacity
+    
+    def set_payment_method(self, payment_method):
+        self.payment_method = payment_method
+    
+    def set_route(self, origin, destination):
+        self.origin = origin
+        self.destination = destination
+    
+    def manage_passengers(self, embarked, disembarked):
+        self.current_passengers += embarked
+        self.current_passengers -= disembarked
+    
+    def monitor_capacity(self):
+        print("Bus capacity:", self.capacity)
+        print("Current passengers:", self.current_passengers)
+
+class Subway(Transport):
+    def __init__(self):
+        self.capacity = 0
+        self.origin_station = ""
+        self.destination_station = ""
+        self.current_passengers = 0  
+    
+    def set_capacity(self, capacity):
+        self.capacity = capacity
+    
+    def set_payment_method(self, payment_method):
+        pass  
+    
+    def set_route(self, origin_station, destination_station):
+        self.origin_station = origin_station
+        self.destination_station = destination_station
+    
+    def manage_passengers(self, embarked, disembarked):
+        self.current_passengers += embarked
+        self.current_passengers -= disembarked
+    
+    def monitor_capacity(self):
+        print("Subway capacity:", self.capacity)
+        print("Current passengers:", self.current_passengers)
+
+if __name__ == "__main__":
+    bus_factory = BusFactory()  
+    bus = bus_factory.create_transport()  # (((FACTORY CRIANDO OBJETO BUS)))
+    bus.set_capacity(50)  
+    bus.set_payment_method("Card")  
+    bus.set_route("Station A", "Station B")  
+    bus.manage_passengers(20, 10)  
+    bus.monitor_capacity()  
+
+    subway_factory = SubwayFactory()  
+    subway = subway_factory.create_transport()  # (((FACTORY CRIA SUBWAY)))
+    subway.set_capacity(200)  
+    subway.set_route("Station X", "Station Y")  
+    subway.manage_passengers(100, 50)  
+    subway.monitor_capacity()  
