@@ -1,30 +1,30 @@
 from abc import ABC, abstractmethod
 
 # Abstract Factory
-class TransportationFactory(ABC):
+class TransporteationFactory(ABC):
     @abstractmethod
-    def create_transport(self):
+    def create_Transporte(self):
         pass
 
-class BusFactory(TransportationFactory):
-    def create_transport(self): #Factory Method
-        return Bus()
+class onibusFactory(TransporteationFactory):
+    def create_Transporte(self): 
+        return onibus()
 
-class SubwayFactory(TransportationFactory):
-    def create_transport(self):
-        return Subway()
+class metroFactory(TransporteationFactory):
+    def create_Transporte(self):
+        return metro()
 
-class Transport(ABC):
+class Transporte(ABC):
     @abstractmethod
-    def set_capacity(self, capacity):
-        pass
-    
-    @abstractmethod
-    def set_payment_method(self, payment_method):
+    def set_capacidade_veiculo(self, capacidade_veiculo):
         pass
     
     @abstractmethod
-    def set_route(self, origin, destination):
+    def set_pagamento(self, pagamento):
+        pass
+    
+    @abstractmethod
+    def set_route(self, origin, destino):
         pass
     
     @abstractmethod
@@ -32,72 +32,72 @@ class Transport(ABC):
         pass
     
     @abstractmethod
-    def monitor_capacity(self):
+    def monitor_capacidade_veiculo(self):
         pass
 
-class Bus(Transport):#PRODUTO CONRETO
+class onibus(Transporte):#PRODUTO CONRETO
     def __init__(self):
-        self.capacity = 0
-        self.payment_method = ""
+        self.capacidade_veiculo = 0
+        self.pagamento = ""
         self.origin = ""
-        self.destination = ""
-        self.current_passengers = 0  
+        self.destino = ""
+        self.capacidade_passageiros = 0  
 
-    def set_capacity(self, capacity):
-        self.capacity = capacity
+    def set_capacidade_veiculo(self, capacidade_veiculo):
+        self.capacidade_veiculo = capacidade_veiculo
     
-    def set_payment_method(self, payment_method):
-        self.payment_method = payment_method
+    def set_pagamento(self, pagamento):
+        self.pagamento = pagamento
     
-    def set_route(self, origin, destination):
+    def set_route(self, origin, destino):
         self.origin = origin
-        self.destination = destination
+        self.destino = destino
     
     def manage_passengers(self, embarked, disembarked):
-        self.current_passengers += embarked
-        self.current_passengers -= disembarked
+        self.capacidade_passageiros += embarked
+        self.capacidade_passageiros -= disembarked
     
-    def monitor_capacity(self):
-        print("Bus capacity:", self.capacity)
-        print("Current passengers:", self.current_passengers)
+    def monitor_capacidade_veiculo(self):
+        print("onibus capacidade_veiculo:", self.capacidade_veiculo)
+        print("Current passengers:", self.capacidade_passageiros)
 
-class Subway(Transport):
+class metro(Transporte):
     def __init__(self):
-        self.capacity = 0
+        self.capacidade_veiculo = 0
         self.origin_station = ""
-        self.destination_station = ""
-        self.current_passengers = 0  
+        self.destino_station = ""
+        self.capacidade_passageiros = 0  
     
-    def set_capacity(self, capacity):
-        self.capacity = capacity
+    def set_capacidade_veiculo(self, capacidade_veiculo):
+        self.capacidade_veiculo = capacidade_veiculo
     
-    def set_payment_method(self, payment_method):
+    def set_pagamento(self, pagamento):
         pass  
     
-    def set_route(self, origin_station, destination_station):
+    def set_route(self, origin_station, destino_station):
         self.origin_station = origin_station
-        self.destination_station = destination_station
+        self.destino_station = destino_station
     
     def manage_passengers(self, embarked, disembarked):
-        self.current_passengers += embarked
-        self.current_passengers -= disembarked
+        self.capacidade_passageiros += embarked
+        self.capacidade_passageiros -= disembarked
     
-    def monitor_capacity(self):
-        print("Subway capacity:", self.capacity)
-        print("Current passengers:", self.current_passengers)
+    def monitor_capacidade_veiculo(self):
+        print("metro capacidade_veiculo:", self.capacidade_veiculo)
+        print("Current passengers:", self.capacidade_passageiros)
 
 if __name__ == "__main__":
-    bus_factory = BusFactory()  
-    bus = bus_factory.create_transport()  # (((FACTORY CRIANDO OBJETO BUS)))
-    bus.set_capacity(50)  
-    bus.set_payment_method("Card")  
-    bus.set_route("Station A", "Station B")  
-    bus.manage_passengers(20, 10)  
-    bus.monitor_capacity()  
+    onibus_factory = onibusFactory()  
+    onibus = onibus_factory.create_Transporte()  # (((FACTORY CRIANDO OBJETO onibus)))
+    onibus.set_capacidade_veiculo(50)  
+    onibus.set_pagamento("Card")  
+    onibus.set_route("Station A", "Station B")  
+    onibus.manage_passengers(20, 10)  
+    onibus.monitor_capacidade_veiculo()  
 
-    subway_factory = SubwayFactory()  
-    subway = subway_factory.create_transport()  # (((FACTORY CRIA SUBWAY)))
-    subway.set_capacity(200)  
-    subway.set_route("Station X", "Station Y")  
-    subway.manage_passengers(100, 50)  
-    subway.monitor_capacity()  
+    metro_factory = metroFactory()  
+    metro = metro_factory.create_Transporte()  # (((FACTORY CRIA metro)))
+    metro.set_capacidade_veiculo(200)  
+    metro.set_route("Station X", "Station Y")  
+    metro.manage_passengers(100, 50)  
+    metro.monitor_capacidade_veiculo()  
