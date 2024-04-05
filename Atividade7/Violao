@@ -1,0 +1,117 @@
+import copy
+
+class ViolaoPrototype:
+    def clone(self):
+        return copy.deepcopy(self)
+
+class ViolaoClássico(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "Clássico"
+        self.cordas = "Nylon"
+        self.corpo = "Leve e macio"
+        self.amplificado = False
+        self.preco = "Baixo"
+
+class ViolaoFolk(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "Folk"
+        self.cordas = "Aço"
+        self.corpo = "Maior e acinturado"
+        self.amplificado = True
+        self.preco = "Variado"
+
+class ViolaoFlat(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "Flat"
+        self.cordas = "Nylon"
+        self.corpo = "Fino"
+        self.amplificado = True
+        self.preco = "Variado"
+
+class ViolaoJumbo(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "Jumbo"
+        self.cordas = "Aço"
+        self.corpo = "Largo e arredondado"
+        self.amplificado = True
+        self.preco = "Variado"
+
+class Violao7Cordas(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "7 Cordas"
+        self.cordas = "Nylon"
+        self.corpo = "Semelhante ao Clássico"
+        self.amplificado = False
+        self.preco = "Variado"
+
+class Violao12Cordas(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "12 Cordas"
+        self.cordas = "Nylon"
+        self.corpo = "Semelhante ao Clássico"
+        self.amplificado = False
+        self.preco = "Variado"
+
+class ViolaoZero(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "Zero"
+        self.cordas = "Nylon"
+        self.corpo = "Menor"
+        self.amplificado = False
+        self.preco = "Variado"
+
+class ViolaoDuploZero(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "Duplo Zero"
+        self.cordas = "Nylon"
+        self.corpo = "Um pouco maior"
+        self.amplificado = False
+        self.preco = "Variado"
+
+class ViolaoTriploZero(ViolaoPrototype):
+    def __init__(self):
+        self.tipo = "Triplo Zero"
+        self.cordas = "Nylon"
+        self.corpo = "Intermediário"
+        self.amplificado = False
+        self.preco = "Variado"
+
+class FabricaVioloes:
+    def __init__(self):
+        self.prototipos = {}
+
+    def registrar_prototipo(self, nome, prototipo):
+        self.prototipos[nome] = prototipo
+
+    def criar_violao(self, nome):
+        return self.prototipos[nome].clone()
+
+if __name__ == "__main__":
+    fabrica = FabricaVioloes()
+
+    fabrica.registrar_prototipo("Clássico", ViolaoClássico())
+    fabrica.registrar_prototipo("Folk", ViolaoFolk())
+    fabrica.registrar_prototipo("Flat", ViolaoFlat())
+    fabrica.registrar_prototipo("Jumbo", ViolaoJumbo())
+    fabrica.registrar_prototipo("7 Cordas", Violao7Cordas())
+    fabrica.registrar_prototipo("12 Cordas", Violao12Cordas())
+    fabrica.registrar_prototipo("Zero", ViolaoZero())
+    fabrica.registrar_prototipo("Duplo Zero", ViolaoDuploZero())
+    fabrica.registrar_prototipo("Triplo Zero", ViolaoTriploZero())
+
+    print("Tipos de violões disponíveis:")
+    for tipo in fabrica.prototipos.keys():
+        print("- ", tipo)
+
+    escolha = input("Digite o tipo de violão que deseja: ")
+
+    if escolha in fabrica.prototipos:
+        violao = fabrica.criar_violao(escolha)
+        print("\nViolão escolhido:")
+        print("Tipo:", violao.tipo)
+        print("Cordas:", violao.cordas)
+        print("Corpo:", violao.corpo)
+        print("Amplificado:", "Sim" if violao.amplificado else "Não")
+        print("Preço:", violao.preco)
+    else:
+        print("\nTipo de violão não disponível.")
