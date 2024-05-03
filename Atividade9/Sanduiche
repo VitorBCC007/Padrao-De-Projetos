@@ -1,0 +1,114 @@
+class Sanduiche:
+    def __init__(self):
+        self.pao = ""
+        self.proteina = ""
+        self.queijo = ""
+        self.vegetais = []
+        self.condimentos = []
+        
+    def __str__(self):
+        return f"Pão: {self.pao}\nProteína: {self.proteina}\nQueijo: {self.queijo}\nVegetais: {', '.join(self.vegetais)}\nCondimentos: {', '.join(self.condimentos)}"
+
+class ConstrutorSanduiche:
+    def __init__(self):
+        self.sanduiche = Sanduiche()
+
+    def adicionar_pao(self, pao):
+        self.sanduiche.pao = pao
+
+    def adicionar_proteina(self, proteina):
+        self.sanduiche.proteina = proteina
+
+    def adicionar_queijo(self, queijo):
+        self.sanduiche.queijo = queijo
+
+    def adicionar_vegetais(self, vegetais):
+        self.sanduiche.vegetais = vegetais
+
+    def adicionar_condimentos(self, condimentos):
+        self.sanduiche.condimentos = condimentos
+
+    def obter_sanduiche(self):
+        return self.sanduiche
+
+class DiretorPadrao(ConstrutorSanduiche):
+    def __init__(self):
+        super().__init__()
+        self.adicionar_pao()
+        self.adicionar_proteina()
+        self.adicionar_queijo()
+        self.adicionar_vegetais()
+        self.adicionar_condimentos()
+
+    def adicionar_pao(self):
+        self.sanduiche.pao = "Pão branco"
+
+    def adicionar_proteina(self):
+        self.sanduiche.proteina = "Hamburguer"
+
+    def adicionar_queijo(self):
+        self.sanduiche.queijo = "Cheddar"
+
+    def adicionar_vegetais(self):
+        self.sanduiche.vegetais = ["Alface", "Tomate", "Cebola"]
+
+    def adicionar_condimentos(self):
+        self.sanduiche.condimentos = ["Maionese", "Mostarda"]
+
+class DiretorVegetariano(ConstrutorSanduiche):
+    def __init__(self):
+        super().__init__()
+        self.adicionar_pao()
+        self.adicionar_proteina()
+        self.adicionar_queijo()
+        self.adicionar_vegetais()
+        self.adicionar_condimentos()
+
+    def adicionar_pao(self):
+        self.sanduiche.pao = "Pão integral"
+
+    def adicionar_proteina(self):
+        self.sanduiche.proteina = ["Hamburguer jaca"]
+
+    def adicionar_queijo(self):
+        self.sanduiche.queijo = "Queijo vegano"
+
+    def adicionar_vegetais(self):
+        self.sanduiche.vegetais = ["Alface", "Tomate", "Cebola", "Pimentão"]
+
+    def adicionar_condimentos(self):
+        self.sanduiche.condimentos = ["Mostarda de mel"]
+
+if __name__ == "__main__":
+    print("Escolha o seu sanduíche:")
+    print("[1] Sanduíche Padrão")
+    print("[2] Sanduíche Vegetariano")
+    print("[3] Sanduíche Personalizado")
+
+    escolha = input("Digite sua escolha ([1] / [2] / [3]): ")
+    if escolha == "1":
+        diretor = DiretorPadrao()
+    elif escolha == "2":
+        diretor = DiretorVegetariano()
+    elif escolha == "3":
+        construtor = ConstrutorSanduiche()
+        
+        pao = input("Digite o tipo de pão: ")
+        proteina = input("Digite o tipo de proteína: ")
+        queijo = input("Digite o tipo de queijo: ")
+        vegetais = input("Digite os vegetais (separados por vírgula): ").split(",")
+        condimentos = input("Digite os condimentos (separados por vírgula): ").split(",")
+
+        construtor.adicionar_pao(pao)
+        construtor.adicionar_proteina(proteina)
+        construtor.adicionar_queijo(queijo)
+        construtor.adicionar_vegetais(vegetais)
+        construtor.adicionar_condimentos(condimentos)
+        diretor = construtor
+    else:
+        print("Escolha inválida \nOpções válidas somente [1] [2] [3]")
+        exit()
+
+    sanduiche = diretor.obter_sanduiche()
+    print("Seu sanduíche:")
+    print(sanduiche)
