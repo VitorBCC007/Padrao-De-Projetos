@@ -1,37 +1,36 @@
 import threading
 
-class DatabaseConnectionManager:
-    _instance = None
-    _lock = threading.Lock()
+class GerenciadorConexaoBancoDados:
+    _instancia = None
+    _trava = threading.Lock()
 
-    def __new__(cls):
-        if cls._instance is None:
-            with cls._lock:
-                if cls._instance is None:
-                    cls._instance = super().__new__(cls)
-                    # SIMULA CONEXÃO
-                    cls._instance.connection = "Conexão com o banco de dados estabelecida"
-        return cls._instance
+    def __new__(cls): # SIMULANDO CONEXÃO
+        if cls._instancia is None:
+            with cls._trava:
+                if cls._instancia is None:
+                    cls._instancia = super().__new__(cls)
+                    cls._instancia.conexao = "Conexão com o banco de dados estabelecida"
+        return cls._instancia
 
-    def get_connection(self):
-        return self.connection
+    def obter_conexao(self):
+        return self.conexao #INF CONEXÃO SUCEDIDA
 
-class DatabaseAccessThread(threading.Thread):
+class ThreadAcessoBancoDados(threading.Thread):
     def run(self):
-        db_connection = DatabaseConnectionManager().get_connection()
-        print(f"Thread {self.name}: Conexão obtida com sucesso: {db_connection}")
+        conexao_bd = GerenciadorConexaoBancoDados().obter_conexao()
+        print(f"Thread {self.name}: Conexão obtida com sucesso: {conexao_bd}")
 
-def main(): #5 THREADS PARA ACESSAR BD
+def principal(): # 5 THREADS PARA ACESSAR BD
     threads = []
     for i in range(5):
-        thread = DatabaseAccessThread(name=f"Thread-{i+1}")
+        thread = ThreadAcessoBancoDados(name=f"Thread-{i+1}")
         threads.append(thread)
         thread.start()
 
-    for thread in threads: #TEMINANDO ACESSO AO BD
+    for thread in threads: # TERMINANDO ACESSO AO BD
         thread.join()
 
 
 
 if __name__ == "__main__":
-    main()
+    principal()
