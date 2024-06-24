@@ -1,0 +1,67 @@
+from abc import ABC, abstractmethod
+
+class DatabaseAdapter(ABC):
+    @abstractmethod
+    def connect(self):
+        pass
+
+    @abstractmethod
+    def execute_query(self, query):
+        pass
+
+    @abstractmethod
+    def close(self):
+        pass
+
+class ParadoxAdapter(DatabaseAdapter):
+    def connect(self):
+        print("Conectando ao banco de dados Paradox (Single usuário e transações únicas)")
+
+    def execute_query(self, query):
+        print(f"Executando query no Paradox: {query}")
+
+    def close(self):
+        print("Fechando conexão com o Paradox")
+
+class FirebirdAdapter(DatabaseAdapter):
+    def connect(self):
+        print("Conectando ao banco de dados Firebird (Multi usuário e transações únicas)")
+
+    def execute_query(self, query):
+        print(f"Executando query no Firebird: {query}")
+
+    def close(self):
+        print("Fechando conexão com o Firebird")
+
+class MySQLAdapter(DatabaseAdapter):
+    def connect(self):
+        print("Conectando ao banco de dados MySQL (Multi usuário e múltiplas transações)")
+
+    def execute_query(self, query):
+        print(f"Executando query no MySQL: {query}")
+
+    def close(self):
+        print("Fechando conexão com o MySQL")
+
+class DatabaseFactory:
+    @staticmethod
+    def get_database_adapter(user_profile):
+        if user_profile == 'Gratuito':
+            return ParadoxAdapter()
+        elif user_profile == 'Básico':
+            return FirebirdAdapter()
+        elif user_profile == 'Ultimate':
+            return MySQLAdapter()
+        else:
+            raise ValueError("Perfil de usuário desconhecido")
+
+def main():
+    user_profile = 'Básico'  # 'Gratuito', 'Básico' ou 'Ultimate' (Obs: COM A ALTERAÇÃO == altera a conexão (Firebird / / Paradox // MySQL))
+    database_adapter = DatabaseFactory.get_database_adapter(user_profile)
+    
+    database_adapter.connect()
+    database_adapter.execute_query("SELECT * FROM users")
+    database_adapter.close()
+
+if __name__ == "__main__":
+    main()
