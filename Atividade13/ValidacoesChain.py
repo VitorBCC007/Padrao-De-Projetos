@@ -80,25 +80,17 @@ handler = NumerosConsecutivosHandler(handler)
 handler = TamanhoMinimoHandler(handler)
 handler = TamanhoMaximoHandler(handler)
 
-login = "usuario1"
-senha = "abc123"
+#login = "usuario1"   #((EXEMPLO INVALIDO))
+#senha = "abc123"
 
-# login = "usuario1"
-# senha = "Morango52@"
+#login = "usuario2"   #((EXEMPLO COM ALGUM ERRO DE VALIDACAO))  3n consecutivos 1234 
+#senha = "Abacate1234"
+
+login = "usuario3"     #((EXEMPLO VALIDO))
+senha = "Morango52@"
 
 if handler.handle(login, senha):
     print("Login e senha validos")
 else:
     print("Login e/ou senha invalidos")
 
-#PARA VALIDAR UM LOGIN E SENHA SIGA TODAS AS REQUISICOES ABAIXO:
-#sem uma letra maiuscula  ==  invalido
-#numeros seguidos (sequencia)  ==   invalido 
-#senha sem 8 caracteres == invalido
-#senha sem 1 numero == invalido
-#senha sem letra minuscula == invalido
-#senha sem 1 caracter especial == invalido
-
-#login fora dos cadastros == logins_cadastrados = ["usuario1", "usuario2", "usuario3"]
-# if login not in self.logins_cadastrados:
-            #print("Login não cadastrado.")
