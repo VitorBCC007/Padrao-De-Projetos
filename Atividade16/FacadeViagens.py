@@ -1,131 +1,105 @@
-class ReservaPassagem:
+class SistemaReservaAerea:
     def __init__(self):
-        self.classes = {
+        self.preco_assentos = {
             'Economica': 500,
             'Executiva': 500 * 2.5,
             'Primeira Classe': 500 * 2.5 * 1.5
         }
+        self.disposicao_assentos = [f"{i + 1}{letra}" for i in range(32) for letra in 'ABCDEF']
+    
+    def reservar_assento(self, classe, assento):
+        if classe not in self.preco_assentos:
+            raise ValueError("Tipo de classe inválido.")
+        if assento not in self.disposicao_assentos:
+            raise ValueError("Assento inválido.")
+        return self.preco_assentos[classe]
 
-    def reservar_assento(self, fileira, poltrona, classe):
-        preco = self.classes[classe]
-        return f"Assento {fileira}{poltrona} reservado na classe {classe}. Preco: R${preco:.2f}"
-
-class ReservaHotel:
+class SistemaReservaHotel:
     def __init__(self):
-        self.tipos_quarto = {
+        self.preco_quartos = {
             'Simples': 200,
             'Executivo': 200 * 1.5,
             'Suite Presidencial': 200 * 1.5 * 3
         }
-
+    
     def reservar_quarto(self, tipo_quarto, num_pessoas):
-        preco = self.tipos_quarto[tipo_quarto] * num_pessoas
-        return f"Quarto {tipo_quarto} reservado para {num_pessoas} pessoas. Preco: R${preco:.2f}"
+        if tipo_quarto not in self.preco_quartos:
+            raise ValueError("Tipo de quarto inválido.")
+        return self.preco_quartos[tipo_quarto] * num_pessoas
 
-class AluguelCarro:
+class SistemaAluguelCarro:
     def __init__(self):
-        self.tipos_carro = { 
+        self.preco_carros = {
             'Economico': 150,
-            'Executivo': 150 * 2,  
+            'Executivo': 150 * 2,
             'Luxo': 150 * 2 * 2
         }
-
-    def alugar_carro(self, tipo_carro, dias):
-        preco = self.tipos_carro[tipo_carro] * dias
-        return f"Carro {tipo_carro} alugado por {dias} dias. Preco: R${preco:.2f}"
-
-class Pagamento:
-    def calcular_valor_final(self, valor_total, forma_pagamento, parcelas=1):
-        descontos = {
-            'Pix': 0.1,
-            'Boleto': 0.05,
-            'Debito': 0,
-            'Credito': 0
-        }
-        acrescimo_credito = 0.0399
-        desconto = descontos.get(forma_pagamento, 0)
-        valor_com_desconto = valor_total * (1 - desconto)
-
-        if forma_pagamento == 'Credito' and parcelas > 1:
-            valor_com_juros = valor_com_desconto * ((1 + acrescimo_credito) ** (parcelas - 1))
-            return valor_com_juros, valor_com_juros - valor_total
-        return valor_com_desconto, valor_total - valor_com_desconto
-
-class FacadeSistemaViagem:
-    def __init__(self):
-        self.reserva_passagem = ReservaPassagem()
-        self.reserva_hotel = ReservaHotel()
-        self.aluguel_carro = AluguelCarro()
-        self.pagamento = Pagamento()
-
-    def comprar_pacote(self, nome, cpf, fileira, poltrona, classe_voo, tipo_quarto, num_pessoas, tipo_carro, dias_carro, forma_pagamento, parcelas=1):
-        passagem = self.reserva_passagem.reservar_assento(fileira, poltrona, classe_voo)
-        hotel = self.reserva_hotel.reservar_quarto(tipo_quarto, num_pessoas)
-        carro = self.aluguel_carro.alugar_carro(tipo_carro, dias_carro)
-
-        valor_total = sum([self.reserva_passagem.classes[classe_voo],
-                           self.reserva_hotel.tipos_quarto[tipo_quarto] * num_pessoas,
-                           self.aluguel_carro.tipos_carro[tipo_carro] * dias_carro])
-
-        valor_final, diferenca = self.pagamento.calcular_valor_final(valor_total, forma_pagamento, parcelas)
-
-        resumo = (
-            f"Comprador: {nome}, CPF: {cpf}\n"
-            f"{passagem}\n"
-            f"{hotel}\n"
-            f"{carro}\n"
-            f"Forma de pagamento: {forma_pagamento} {'em ' + str(parcelas) + ' parcelas' if parcelas > 1 else ''}\n"
-            f"Valor Total do Pacote: R${valor_total:.2f}\n"
-            f"Valor Final com Desconto/Juros: R${valor_final:.2f}\n"
-            f"Valor {('Desconto' if diferenca >= 0 else 'Acrescimo')}: R${abs(diferenca):.2f}\n"
-        )
-        
-        print(resumo)
-        return resumo
     
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    def alugar_carro(self, tipo_carro, dias):
+        if tipo_carro not in self.preco_carros:
+            raise ValueError("Tipo de carro inválido.")
+        return self.preco_carros[tipo_carro] * dias
 
-sistema_viagem = FacadeSistemaViagem()
-sistema_viagem.comprar_pacote(
-    nome="Joao Vitor",
-    cpf="123.456.789-00", 
-    fileira=5,
-    poltrona="C",
-    classe_voo="Executiva", #ALTERAR Executiva / Economica /Primeira Classe
-    tipo_quarto="Executivo", #ALTERAR Simples / Executivo / Suite Presidencial
-    num_pessoas=2,
-    tipo_carro="Luxo", #ALTERAR Economico / Executivo / Luxo
-    dias_carro=5,
-    forma_pagamento="Credito",#ALTERAR Pix / Boleto / Debito / Credito
-    parcelas=3
-)
+class SistemaPagamento:
+    def __init__(self):
+        self.metodos_pagamento = {
+            'Pix': 0.9,
+            'Boleto': 0.95,
+            'Debito': 1.0,
+            'Credito': 1.0399  
+        }
+    
+    def calcular_pagamento(self, metodo, valor_total, num_parcelas=1):
+        if metodo not in self.metodos_pagamento:
+            raise ValueError("Metodo de pagamento inválido.")
+        if metodo == 'Credito' and num_parcelas > 1:
+            return valor_total * (1 + 0.0399 * (num_parcelas - 1))
+        return valor_total * self.metodos_pagamento[metodo]
 
+class FacadePacoteViagem:
+    def __init__(self):
+        self.sistema_aereo = SistemaReservaAerea()
+        self.sistema_hotel = SistemaReservaHotel()
+        self.sistema_carro = SistemaAluguelCarro()
+        self.sistema_pagamento = SistemaPagamento()
+    
+    def reservar_pacote(self, dados_clientes, classe_assento, assentos, tipo_quarto, num_pessoas, tipo_carro, dias, metodo_pagamento, num_parcelas=1):
+        total_assentos = sum(self.sistema_aereo.reservar_assento(classe_assento, assento) for assento in assentos)
+        preco_quarto = self.sistema_hotel.reservar_quarto(tipo_quarto, num_pessoas)
+        preco_carro = self.sistema_carro.alugar_carro(tipo_carro, dias)
+        valor_total = total_assentos + preco_quarto + preco_carro
+        valor_final = self.sistema_pagamento.calcular_pagamento(metodo_pagamento, valor_total, num_parcelas)
+        
+        print("Dados dos Clientes:")
+        for cliente in dados_clientes:
+            print(f"Nome: {cliente['nome']}, CPF: {cliente['cpf']}")
+        
+        print("\nDetalhes da Reserva:")
+        print(f"Assentos: {', '.join(assentos)} ({classe_assento})")
+        print(f"Quarto do Hotel: {tipo_quarto} ({num_pessoas} pessoas)")
+        print(f"Aluguel de Carro: {tipo_carro} ({dias} dias)")
+        print(f"Metodo de Pagamento: {metodo_pagamento}")
+        print(f"Valor Total: R$ {valor_total:.2f}")
+        print(f"Valor Final (com descontos ou acrescimos): R$ {valor_final:.2f}")
 
-sistema_viagem.comprar_pacote(
-    nome="Eduardo ",
-    cpf="123.456.789-01", 
-    fileira=12,
-    poltrona="B",
-    classe_voo="Economica", #ALTERAR Executiva / Economica / Primeira Classe
-    tipo_quarto="Simples", #ALTERAR Simples / Executivo / Suite Presidencial
-    num_pessoas=1,
-    tipo_carro="Economico",# ALTERAR Economico / Executivo / Luxo
-    dias_carro=3,
-    forma_pagamento="Pix" #ALTERAR Pix / Boleto / Debito / Credito
-)
+def main():
+    dados_clientes = [
+        {"nome": "Joao Vitor", "cpf": "12345678901"},
+        {"nome": "Namorada", "cpf": "12345678902"}
+    ]
+    
+    facade = FacadePacoteViagem()
+    facade.reservar_pacote(
+        dados_clientes,
+        classe_assento='Executiva', #Economica / Executiva/ Primeira Classe
+        assentos=['4A', '4B'],  #CASAL 2 assentos diferentes
+        tipo_quarto='Executivo', #'Simples / Executivo / Suite Presidencial
+        num_pessoas=2,
+        tipo_carro='Luxo', #Economico/ Executivo / Luxo
+        dias=5,
+        metodo_pagamento='Credito', #PIX / BOLETO / CREDITO / DEBITO
+        num_parcelas=6
+    )
 
-sistema_viagem.comprar_pacote(
-    nome="Pablo Escobar",
-    cpf="123.456.789-02", 
-    fileira=1,
-    poltrona="A",
-    classe_voo="Primeira Classe", # ALTERAR Executiva / Economica / Primeira Classe
-    tipo_quarto="Suite Presidencial", # ALTERAR Simples / Executivo / Suite Presidencial
-    num_pessoas=4,
-    tipo_carro="Luxo", # ALTERAR Economico / Executivo / Luxo
-    dias_carro=10,
-    forma_pagamento="Credito", # ALTERAR Pix / Boleto / Debito / Credito
-    parcelas=12 # Máximo de parcelas para o maior acréscimo
-)
-
-#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+if __name__ == "__main__":
+    main()
