@@ -5,14 +5,33 @@ class SistemaReservaAerea:
             'Executiva': 500 * 2.5,
             'Primeira Classe': 500 * 2.5 * 1.5
         }
-        self.disposicao_assentos = [f"{i + 1}{letra}" for i in range(32) for letra in 'ABCDEF']
-    
+        self.disposicao_assentos = {
+            "A": "Janela",
+            "B": "Meio",
+            "C": "Corredor",
+            "D": "Corredor",
+            "E": "Meio",
+            "F": "Janela"
+        }
+        self.fileiras_classes = {
+            "Primeira Classe": range(1, 4),
+            "Executiva": range(4, 9),
+            "Economica": range(9, 33)
+        }
+
     def reservar_assento(self, classe, assento):
+        fileira, letra = int(assento[:-1]), assento[-1]
+        
         if classe not in self.preco_assentos:
             raise ValueError("Tipo de classe inválido.")
-        if assento not in self.disposicao_assentos:
+        
+        if fileira not in self.fileiras_classes[classe]:
+            raise ValueError(f"Assento {assento} não pertence à classe {classe}.")
+        
+        if letra not in self.disposicao_assentos:
             raise ValueError("Assento inválido.")
-        return self.preco_assentos[classe]
+        
+        return self.preco_assentos[classe], self.disposicao_assentos[letra]
 
 class SistemaReservaHotel:
     def __init__(self):
@@ -21,7 +40,7 @@ class SistemaReservaHotel:
             'Executivo': 200 * 1.5,
             'Suite Presidencial': 200 * 1.5 * 3
         }
-    
+
     def reservar_quarto(self, tipo_quarto, num_pessoas):
         if tipo_quarto not in self.preco_quartos:
             raise ValueError("Tipo de quarto inválido.")
@@ -34,27 +53,25 @@ class SistemaAluguelCarro:
             'Executivo': 150 * 2,
             'Luxo': 150 * 2 * 2
         }
-    
+
     def alugar_carro(self, tipo_carro, dias):
         if tipo_carro not in self.preco_carros:
             raise ValueError("Tipo de carro inválido.")
         return self.preco_carros[tipo_carro] * dias
 
 class SistemaPagamento:
-    def __init__(self):
-        self.metodos_pagamento = {
-            'Pix': 0.9,
-            'Boleto': 0.95,
-            'Debito': 1.0,
-            'Credito': 1.0399  
-        }
-    
-    def calcular_pagamento(self, metodo, valor_total, num_parcelas=1):
-        if metodo not in self.metodos_pagamento:
-            raise ValueError("Metodo de pagamento inválido.")
-        if metodo == 'Credito' and num_parcelas > 1:
-            return valor_total * (1 + 0.0399 * (num_parcelas - 1))
-        return valor_total * self.metodos_pagamento[metodo]
+    def calcular_pagamento(self, metodo_pagamento, valor_total, num_parcelas=1):
+        if metodo_pagamento == 'Pix':
+            return valor_total * 0.9
+        elif metodo_pagamento == 'Boleto':
+            return valor_total * 0.95
+        elif metodo_pagamento == 'Debito':
+            return valor_total
+        elif metodo_pagamento == 'Credito':
+            juros = 1.0399 ** (num_parcelas - 1)
+            return valor_total * juros
+        else:
+            raise ValueError("Método de pagamento inválido.")
 
 class FacadePacoteViagem:
     def __init__(self):
@@ -64,7 +81,13 @@ class FacadePacoteViagem:
         self.sistema_pagamento = SistemaPagamento()
     
     def reservar_pacote(self, dados_clientes, classe_assento, assentos, tipo_quarto, num_pessoas, tipo_carro, dias, metodo_pagamento, num_parcelas=1):
-        total_assentos = sum(self.sistema_aereo.reservar_assento(classe_assento, assento) for assento in assentos)
+        total_assentos = 0
+        detalhes_assentos = []
+        for assento in assentos:
+            preco_assento, posicao = self.sistema_aereo.reservar_assento(classe_assento, assento)
+            total_assentos += preco_assento
+            detalhes_assentos.append(f"{assento} ({posicao})")
+        
         preco_quarto = self.sistema_hotel.reservar_quarto(tipo_quarto, num_pessoas)
         preco_carro = self.sistema_carro.alugar_carro(tipo_carro, dias)
         valor_total = total_assentos + preco_quarto + preco_carro
@@ -75,7 +98,7 @@ class FacadePacoteViagem:
             print(f"Nome: {cliente['nome']}, CPF: {cliente['cpf']}")
         
         print("\nDetalhes da Reserva:")
-        print(f"Assentos: {', '.join(assentos)} ({classe_assento})")
+        print(f"Assentos: {', '.join(detalhes_assentos)} ({classe_assento})")
         print(f"Quarto do Hotel: {tipo_quarto} ({num_pessoas} pessoas)")
         print(f"Aluguel de Carro: {tipo_carro} ({dias} dias)")
         print(f"Metodo de Pagamento: {metodo_pagamento}")
@@ -87,18 +110,18 @@ def main():
         {"nome": "Joao Vitor", "cpf": "12345678901"},
         {"nome": "Namorada", "cpf": "12345678902"}
     ]
-    
+    #EXEMPLO CRIADO PARA TESTES
     facade = FacadePacoteViagem()
     facade.reservar_pacote(
         dados_clientes,
-        classe_assento='Executiva', #Economica / Executiva/ Primeira Classe
-        assentos=['4A', '4B'],  #CASAL 2 assentos diferentes
-        tipo_quarto='Executivo', #'Simples / Executivo / Suite Presidencial
-        num_pessoas=2,
-        tipo_carro='Luxo', #Economico/ Executivo / Luxo
-        dias=5,
-        metodo_pagamento='Credito', #PIX / BOLETO / CREDITO / DEBITO
-        num_parcelas=6
+        classe_assento='Executiva',  #Economica /Executiva /Primeira Classe
+        assentos=['4A', '4B'],  
+        tipo_quarto='Executivo',  #Simples /Executivo /Suite Presidencial
+        num_pessoas=2,  
+        tipo_carro='Luxo',  #Economico/ Executivo /Luxo
+        dias=5,  
+        metodo_pagamento='Credito',  #Pix / Bolet o /Debito /Credito
+        num_parcelas=6  
     )
 
 if __name__ == "__main__":
