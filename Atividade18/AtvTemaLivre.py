@@ -1,22 +1,18 @@
-# Importa bibliotecas para criar interfaces e classes abstratas
 from abc import ABC, abstractmethod
 
-# Interface de Pedido
 class Pedido(ABC):
     @abstractmethod
     def processar_pedido(self) -> str:
         pass
 
-# Classe Pedido Normal
 class PedidoNormal(Pedido):
     def __init__(self, id: int, detalhes: str):
         self.id = id
         self.detalhes = detalhes
 
     def processar_pedido(self) -> str:
-        return f"Processando o pedido {self.id} com os detalhes: {self.detalhes}"
+        return f"Pedido {self.id} com detalhes: {self.detalhes} foi processado."
 
-# Classe Decorador Base
 class PedidoDecorador(Pedido):
     def __init__(self, pedido: Pedido):
         self.pedido = pedido
@@ -24,53 +20,86 @@ class PedidoDecorador(Pedido):
     def processar_pedido(self) -> str:
         return self.pedido.processar_pedido()
 
-# Decorador Concreto - Embrulho para Presente
+# Decorador 
 class PedidoComEmbrulho(PedidoDecorador):
     def processar_pedido(self) -> str:
-        # Adiciona o embrulho para presente ao pedido
-        return self.pedido.processar_pedido() + " + com embrulho para presente"
+        return self.pedido.processar_pedido() + " + Pedido com embrulho para presente."
 
-# Decorador Concreto - Seguro
+# Decorador 
 class PedidoComSeguro(PedidoDecorador):
     def processar_pedido(self) -> str:
-        # Adiciona seguro ao pedido
-        return self.pedido.processar_pedido() + " + com seguro"
+        return self.pedido.processar_pedido() + " + Pedido com seguro."
 
-# Proxy - Controla o acesso ao pedido
+# Decorador 
+class PedidoComFreteExpresso(PedidoDecorador):
+    def processar_pedido(self) -> str:
+        return self.pedido.processar_pedido() + " + Pedido com frete expresso."
+
+# Proxy 
 class ProxyDePedido(Pedido):
-    def __init__(self, pedido_real: Pedido):
+    def __init__(self, pedido_real: Pedido, usuario: str):
         self.pedido_real = pedido_real
+        self.usuario = usuario
+
+    def verificar_permissao(self) -> bool:
+        #SIMULACAO ADMIN OU GERENTE
+        usuarios_autorizados = ["admin", "gerente"]
+        return self.usuario in usuarios_autorizados
 
     def processar_pedido(self) -> str:
-        # Aqui você pode verificar permissões ou fazer outras verificações
-        print("Verificando se pode processar o pedido...")
-        return self.pedido_real.processar_pedido()
+        if self.verificar_permissao():
+            print("Usuário autorizado. Processando o pedido...")
+            return self.pedido_real.processar_pedido()
+        else:
+            return "Usuário não autorizado a processar o pedido."
 
-# Factory para criar pedidos
+# Factory 
 class FabricaDePedidos:
     def criar_pedido(self, tipo: str) -> Pedido:
         if tipo == "normal":
-            return PedidoNormal(1, "Pedido normal")
+            return PedidoNormal(1, "Pedido normal sem extras")
         elif tipo == "embrulho":
             return PedidoComEmbrulho(PedidoNormal(2, "Pedido com presente"))
         elif tipo == "seguro":
             return PedidoComSeguro(PedidoNormal(3, "Pedido com seguro"))
+        elif tipo == "frete":
+            return PedidoComFreteExpresso(PedidoNormal(4, "Pedido com frete expresso"))
+        elif tipo == "completo":
+            pedido = PedidoNormal(5, "Pedido completo")
+            pedido = PedidoComEmbrulho(pedido)
+            pedido = PedidoComSeguro(pedido)
+            pedido = PedidoComFreteExpresso(pedido)
+            return pedido
         else:
             raise ValueError("Tipo de pedido desconhecido")
 
-# Exemplo de como usar o código
 if __name__ == "__main__":
     fabrica = FabricaDePedidos()
 
-    # Criando pedidos usando a fábrica
     pedido_normal = fabrica.criar_pedido("normal")
     pedido_com_embrulho = fabrica.criar_pedido("embrulho")
     pedido_com_seguro = fabrica.criar_pedido("seguro")
+    pedido_com_frete = fabrica.criar_pedido("frete")
+    pedido_completo = fabrica.criar_pedido("completo")
 
-    # Usando o Proxy para controlar o acesso ao pedido normal
-    proxy_pedido = ProxyDePedido(pedido_normal)
+    print(pedido_normal.processar_pedido())  
 
-    # Processando os pedidos
-    print(proxy_pedido.processar_pedido())  # Exemplo de uso do Proxy
-    print(pedido_com_embrulho.processar_pedido())  # Pedido com embrulho
-    print(pedido_com_seguro.processar_pedido())  # Pedido com seguro
+    print(pedido_com_embrulho.processar_pedido())  
+
+    print(pedido_com_seguro.processar_pedido())  
+
+    print(pedido_com_frete.processar_pedido())  
+
+    print(pedido_completo.processar_pedido())  
+
+    print('------------------------------------------------------------------------')
+
+    #PROXY PARA CONTROLAR ACESSO
+    proxy_pedido = ProxyDePedido(pedido_normal, "admin")  #AUTORIZADO
+    print(proxy_pedido.processar_pedido())
+    
+    print('------------------------------------------------------------------------')
+
+    proxy_pedido_nao_autorizado = ProxyDePedido(pedido_completo, "cliente")  #NAO AUTORIZADO
+    print(proxy_pedido_nao_autorizado.processar_pedido())
+
