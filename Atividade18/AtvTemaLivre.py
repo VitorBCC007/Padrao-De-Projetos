@@ -13,36 +13,37 @@ class PedidoNormal(Pedido):
     def processar_pedido(self) -> str:
         return f"Pedido {self.id} com detalhes: {self.detalhes} foi processado."
 
+#DECORATOR
 class PedidoDecorador(Pedido):
     def __init__(self, pedido: Pedido):
         self.pedido = pedido
 
+    @abstractmethod
     def processar_pedido(self) -> str:
-        return self.pedido.processar_pedido()
+        pass
 
-# Decorador 
+#DECORATOR
 class PedidoComEmbrulho(PedidoDecorador):
     def processar_pedido(self) -> str:
         return self.pedido.processar_pedido() + " + Pedido com embrulho para presente."
 
-# Decorador 
+#DECORATOR
 class PedidoComSeguro(PedidoDecorador):
     def processar_pedido(self) -> str:
         return self.pedido.processar_pedido() + " + Pedido com seguro."
 
-# Decorador 
+#DECORATOR
 class PedidoComFreteExpresso(PedidoDecorador):
     def processar_pedido(self) -> str:
         return self.pedido.processar_pedido() + " + Pedido com frete expresso."
 
-# Proxy 
+#PROXY
 class ProxyDePedido(Pedido):
     def __init__(self, pedido_real: Pedido, usuario: str):
         self.pedido_real = pedido_real
         self.usuario = usuario
 
     def verificar_permissao(self) -> bool:
-        #SIMULACAO ADMIN OU GERENTE
         usuarios_autorizados = ["admin", "gerente"]
         return self.usuario in usuarios_autorizados
 
@@ -53,8 +54,14 @@ class ProxyDePedido(Pedido):
         else:
             return "Usuário não autorizado a processar o pedido."
 
-# Factory 
-class FabricaDePedidos:
+# FACTORY
+class FabricaDePedidos(ABC):
+    @abstractmethod
+    def criar_pedido(self, tipo: str) -> Pedido:
+        pass
+
+#FACTORY
+class FabricaDePedidosConcreta(FabricaDePedidos):
     def criar_pedido(self, tipo: str) -> Pedido:
         if tipo == "normal":
             return PedidoNormal(1, "Pedido normal sem extras")
@@ -74,7 +81,7 @@ class FabricaDePedidos:
             raise ValueError("Tipo de pedido desconhecido")
 
 if __name__ == "__main__":
-    fabrica = FabricaDePedidos()
+    fabrica = FabricaDePedidosConcreta()
 
     pedido_normal = fabrica.criar_pedido("normal")
     pedido_com_embrulho = fabrica.criar_pedido("embrulho")
@@ -83,23 +90,18 @@ if __name__ == "__main__":
     pedido_completo = fabrica.criar_pedido("completo")
 
     print(pedido_normal.processar_pedido())  
-
     print(pedido_com_embrulho.processar_pedido())  
-
     print(pedido_com_seguro.processar_pedido())  
-
     print(pedido_com_frete.processar_pedido())  
-
     print(pedido_completo.processar_pedido())  
 
-    print('------------------------------------------------------------------------')
+    print('----------------------------------------------------------------------------------')
 
-    #PROXY PARA CONTROLAR ACESSO
-    proxy_pedido = ProxyDePedido(pedido_normal, "admin")  #AUTORIZADO
+    # PROXY PARA CONTROLAR ACESSO
+    proxy_pedido = ProxyDePedido(pedido_normal, "admin")  # AUTORIZADO
     print(proxy_pedido.processar_pedido())
     
-    print('------------------------------------------------------------------------')
+    print('----------------------------------------------------------------------------------')
 
-    proxy_pedido_nao_autorizado = ProxyDePedido(pedido_completo, "cliente")  #NAO AUTORIZADO
+    proxy_pedido_nao_autorizado = ProxyDePedido(pedido_completo, "cliente")  # NAO
     print(proxy_pedido_nao_autorizado.processar_pedido())
-
