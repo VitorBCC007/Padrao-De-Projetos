@@ -3,7 +3,7 @@ class PlataformaDeVideo:
         # DICIONÁRIO
         self.observadores = {}
 
-    def adicionar_observador(self, usuario, genero):
+    def adicionar_observador(self, usuario, genero): 
         if genero not in self.observadores:
             self.observadores[genero] = []
         if usuario not in self.observadores[genero]:
@@ -40,6 +40,7 @@ class Conteudo:
 
 if __name__ == "__main__":
     plataforma = PlataformaDeVideo()
+
 #DEFIÇÃO NÚMERO DE USUÁRIOS 
     usuario1 = Usuario("João Vitor")
     usuario2 = Usuario("Vútão Mendes")
@@ -62,6 +63,8 @@ if __name__ == "__main__":
 
     print('-------------------------------------------------------------------------------------------------')
 #TESTES DE ADICIONAR USUARIO A UM FILME JA ADICIONADO ANTERIORMENTE, TESTE DE CANCELAMENTO DE UM FILME E TESTE DE CANCELAR SEM  INSCRIÇÃO
+#O PADRÃO OBSERVER É MUITO ÚTIL QUANDO TEMOS A NECESSIDADE DE NOTIFICAR MULTIPLOS OBJETOS SOBRE MUDANÇA DE ESTADO DE OUTRO OBJETO
+
     #JÁ INSCRITO
     plataforma.adicionar_observador(usuario1, "ação")
 
@@ -87,3 +90,4 @@ if __name__ == "__main__":
     plataforma.notificar_observadores(novo_filme3.genero, novo_filme3)  
 
     print('-------------------------------------------------------------------------------------------------')
+
