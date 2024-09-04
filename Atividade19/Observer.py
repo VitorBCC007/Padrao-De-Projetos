@@ -40,7 +40,7 @@ class Conteudo:
 
 if __name__ == "__main__":
     plataforma = PlataformaDeVideo()
-
+#DEFIÇÃO NÚMERO DE USUÁRIOS 
     usuario1 = Usuario("João Vitor")
     usuario2 = Usuario("Vútão Mendes")
     usuario3 = Usuario("Sara")
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     usuario7 = Usuario("Belinha")
 
     print('-------------------------------------------------------------------------------------------------')
-
+#ADICIONANDO USUÁRIO A SEU GENERO DE FILME
     plataforma.adicionar_observador(usuario1, "ação")
     plataforma.adicionar_observador(usuario2, "comédia")
     plataforma.adicionar_observador(usuario3, "terror")
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     plataforma.adicionar_observador(usuario7, "comédia")
 
     print('-------------------------------------------------------------------------------------------------')
-
+#TESTES DE ADICIONAR USUARIO A UM FILME JA ADICIONADO ANTERIORMENTE, TESTE DE CANCELAMENTO DE UM FILME E TESTE DE CANCELAR SEM  INSCRIÇÃO
     #JÁ INSCRITO
     plataforma.adicionar_observador(usuario1, "ação")
 
@@ -71,6 +71,7 @@ if __name__ == "__main__":
     #CANCELANDO SEM ESTAR INSCRITO
     plataforma.remover_observador(usuario7, "terror")
 
+#ADICIONANDO NOVOS FILMES/EPISODIOS 
     novo_filme1 = Conteudo("Interstellar", "ficção científica")
     novo_filme2 = Conteudo("Parasita", "drama")
     novo_episodio1 = Conteudo("Breaking Bad", "ação")
@@ -78,7 +79,7 @@ if __name__ == "__main__":
     novo_filme3 = Conteudo("Invocação do Mal", "terror")
 
     print('-------------------------------------------------------------------------------------------------')
-
+#NOTIFICAÇÕES DOS FILMES PARA OS USUÁRIOS 
     plataforma.notificar_observadores(novo_filme1.genero, novo_filme1)  
     plataforma.notificar_observadores(novo_filme2.genero, novo_filme2)  
     plataforma.notificar_observadores(novo_episodio1.genero, novo_episodio1)  
