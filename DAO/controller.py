@@ -25,5 +25,5 @@ class ControladorProduto:
         self.dao.atualizar_produto(id_produto, nome, preco)
 
     def remover_produto(self, id_produto):
-        """Remove um produto existente."""
+        """Remove um produto existentee"""
         self.dao.deletar_produto(id_produto)
