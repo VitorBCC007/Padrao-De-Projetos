@@ -16,7 +16,7 @@ class VisaoUsuario:
     @staticmethod
     def obter_input_usuario():
         nome = input("Digite o nome do usuário: ")
-        email = input("Digite o email do usuario: ")
+        email = input("Digite o email do usuário: ")
         return nome, email
 
     @staticmethod
