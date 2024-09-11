@@ -1,40 +1,37 @@
-# dao.py
+from models import Produto
 
-from models import Product
-
-class ProductDAO:
+class ProdutoDAO:
     def __init__(self):
-        # Simulando um banco de dados com uma lista
-        self.products = []
+        self.produtos = []
 
-    def create_product(self, product):
+    def criar_produto(self, produto):
         """Adiciona um novo produto à lista."""
-        self.products.append(product)
-        print(f"Produto '{product.name}' adicionado com sucesso.")
+        self.produtos.append(produto)
+        print(f"Produto '{produto.nome}' adicionado com sucesso.")
 
-    def get_all_products(self):
+    def obter_todos_produtos(self):
         """Retorna todos os produtos."""
-        return self.products
+        return self.produtos
 
-    def find_product_by_id(self, product_id):
+    def buscar_produto_por_id(self, id_produto):
         """Busca um produto pelo ID."""
-        return next((product for product in self.products if product.product_id == product_id), None)
+        return next((produto for produto in self.produtos if produto.id_produto == id_produto), None)
 
-    def update_product(self, product_id, name, price):
+    def atualizar_produto(self, id_produto, nome, preco):
         """Atualiza as informações de um produto."""
-        product = self.find_product_by_id(product_id)
-        if product:
-            product.name = name
-            product.price = price
-            print(f"Produto ID '{product_id}' atualizado com sucesso.")
+        produto = self.buscar_produto_por_id(id_produto)
+        if produto:
+            produto.nome = nome
+            produto.preco = preco
+            print(f"Produto ID '{id_produto}' atualizado com sucesso.")
         else:
-            print(f"Produto ID '{product_id}' não encontrado.")
+            print(f"Produto ID '{id_produto}' não encontrado.")
 
-    def delete_product(self, product_id):
+    def deletar_produto(self, id_produto):
         """Remove um produto pelo ID."""
-        product = self.find_product_by_id(product_id)
-        if product:
-            self.products.remove(product)
-            print(f"Produto ID '{product_id}' removido com sucesso.")
+        produto = self.buscar_produto_por_id(id_produto)
+        if produto:
+            self.produtos.remove(produto)
+            print(f"Produto ID '{id_produto}' removido com sucesso.")
         else:
-            print(f"Produto ID '{product_id}' não encontrado.")
+            print(f"Produto ID '{id_produto}' não encontrado.")
