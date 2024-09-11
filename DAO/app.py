@@ -1,44 +1,50 @@
-# app.py
-
-from controller import ProductController
+from controller import ControladorProduto
 
 def main():
-    controller = ProductController()
+    controlador = ControladorProduto()
 
     while True:
         print('----------------------------')
         print("      Menu de Opções:")
-        print('----------------------------')
-        print("\n")
+        print('----------------------------\n')
 
-        print("1. Adicionar Produto")
-        print("2. Listar Produtos")
-        print("3. Atualizar Produto")
-        print("4. Remover Produto")
-        print("5. Sair")
+        print("[1] - Adicionar Produto")
+        print("[2] - Listar Produtos")
+        print("[3] - Atualizar Produto")
+        print("[4] - Remover Produto")
+        print("[5] - Sair")
         
-        choice = input("Escolha uma opção: ")
+        opcao = input("Escolha uma opção: ")
         
-        if choice == '1':
-            product_id = int(input("Digite o ID do produto: "))
-            name = input("Digite o nome do produto: ")
-            price = float(input("Digite o preço do produto: "))
-            controller.add_product(product_id, name, price)
+        if opcao == '1':
+            try:
+                id_produto = int(input("Digite o ID do produto: "))
+                nome = input("Digite o nome do produto: ")
+                preco = float(input("Digite o preço do produto: "))
+                controlador.adicionar_produto(id_produto, nome, preco)
+            except ValueError:
+                print("Entrada inválida! Certifique-se de digitar números para o ID e o preço.")
         
-        elif choice == '2':
-            controller.list_products()
+        elif opcao == '2':
+            controlador.listar_produtos()
         
-        elif choice == '3':
-            product_id = int(input("Digite o ID do produto a ser atualizado: "))
-            name = input("Digite o novo nome do produto: ")
-            price = float(input("Digite o novo preço do produto: "))
-            controller.update_product(product_id, name, price)
+        elif opcao == '3':
+            try:
+                id_produto = int(input("Digite o ID do produto a ser atualizado: "))
+                nome = input("Digite o novo nome do produto: ")
+                preco = float(input("Digite o novo preço do produto: "))
+                controlador.atualizar_produto(id_produto, nome, preco)
+            except ValueError:
+                print("Entrada inválida! Certifique-se de digitar números para o ID e o preço.")
         
-        elif choice == '4':
-            product_id = int(input("Digite o ID do produto a ser removido: "))
-            controller.delete_product(product_id)
+        elif opcao == '4':
+            try:
+                id_produto = int(input("Digite o ID do produto a ser removido: "))
+                controlador.remover_produto(id_produto)
+            except ValueError:
+                print("Entrada inválida! Certifique-se de digitar um número para o ID.")
         
-        elif choice == '5':
+        elif opcao == '5':
             print("Saindo do sistema...")
             break
         
