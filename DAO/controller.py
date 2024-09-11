@@ -1,31 +1,29 @@
-# controller.py
+from dao import ProdutoDAO
+from models import Produto
 
-from dao import ProductDAO
-from models import Product
-
-class ProductController:
+class ControladorProduto:
     def __init__(self):
-        self.dao = ProductDAO()
+        self.dao = ProdutoDAO()
 
-    def add_product(self, product_id, name, price):
+    def adicionar_produto(self, id_produto, nome, preco):
         """Adiciona um novo produto usando o DAO."""
-        product = Product(product_id, name, price)
-        self.dao.create_product(product)
+        produto = Produto(id_produto, nome, preco)
+        self.dao.criar_produto(produto)
 
-    def list_products(self):
+    def listar_produtos(self):
         """Lista todos os produtos."""
-        products = self.dao.get_all_products()
-        if products:
+        produtos = self.dao.obter_todos_produtos()
+        if produtos:
             print("\nLista de Produtos:")
-            for product in products:
-                print(f"ID: {product.product_id}, Nome: {product.name}, Preço: {product.price}")
+            for produto in produtos:
+                print(f"ID: {produto.id_produto}, Nome: {produto.nome}, Preço: {produto.preco}")
         else:
             print("Nenhum produto encontrado.")
 
-    def update_product(self, product_id, name, price):
+    def atualizar_produto(self, id_produto, nome, preco):
         """Atualiza um produto existente."""
-        self.dao.update_product(product_id, name, price)
+        self.dao.atualizar_produto(id_produto, nome, preco)
 
-    def delete_product(self, product_id):
+    def remover_produto(self, id_produto):
         """Remove um produto existente."""
-        self.dao.delete_product(product_id)
+        self.dao.deletar_produto(id_produto)
